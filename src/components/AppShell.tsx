@@ -81,7 +81,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <Logo size="sm" />
           <div className="flex items-center gap-2 text-xs">
             <span className="px-2 py-1 rounded-md gradient-primary text-primary-foreground font-bold">
-              Lvl {user.level}
+              Lvl {level}
             </span>
             <span className="px-2 py-1 rounded-md glass">🔥 {user.streak}</span>
           </div>
