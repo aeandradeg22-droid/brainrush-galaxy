@@ -1,8 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/AppShell";
 import { ProgressBar } from "@/components/ProgressBar";
-import { user, achievements, xpHistory, subjects } from "@/lib/mock-data";
+import { achievements, subjects } from "@/lib/mock-data";
 import { Edit3, Trophy, Flame, Target, Calendar } from "lucide-react";
+import { useUser } from "@/lib/user-store";
+import { fmt } from "@/lib/level-system";
 
 export const Route = createFileRoute("/profile")({
   head: () => ({ meta: [{ title: "Profile — NUMERIX" }] }),
@@ -10,8 +12,9 @@ export const Route = createFileRoute("/profile")({
 });
 
 function Profile() {
-  const xpPct = (user.xp / user.xpToNext) * 100;
-  const recent = xpHistory.slice().reverse();
+  const { state: user, level, rank, voltaRank, progress, accuracy } = useUser();
+  const xpPct = progress.pct;
+  const recent = user.recentActivity.slice(0, 7);
 
   return (
     <AppShell>
