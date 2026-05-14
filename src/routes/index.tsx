@@ -7,17 +7,17 @@ import { stats, leaderboard, subjects } from "@/lib/mock-data";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "NUMERIX — Level Up Your Mind" },
+      { title: "NUMERIX — Alessandro Volta Academic Arena" },
       {
         name: "description",
         content:
-          "A gamified academic platform that transforms Mathematics and Physics practice into an interactive competitive experience.",
+          "The exclusive gamified academic arena built for Alessandro Volta. Compete with classmates, climb the school rankings, and master Math and Physics.",
       },
-      { property: "og:title", content: "NUMERIX — Level Up Your Mind" },
+      { property: "og:title", content: "NUMERIX — Alessandro Volta Academic Arena" },
       {
         property: "og:description",
         content:
-          "Gamified math and physics practice with XP, ranked challenges, boss battles, and an AI tutor.",
+          "Compete with your Volta classmates through Math and Physics challenges, weekly competitions, boss battles, and live school rankings.",
       },
     ],
   }),
