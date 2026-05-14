@@ -7,17 +7,17 @@ import { stats, leaderboard, subjects } from "@/lib/mock-data";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "BrainRush — Level Up Your Mind" },
+      { title: "NUMERIX — Alessandro Volta Academic Arena" },
       {
         name: "description",
         content:
-          "A gamified academic platform that transforms Mathematics and Physics practice into an interactive competitive experience.",
+          "The exclusive gamified academic arena built for Alessandro Volta. Compete with classmates, climb the school rankings, and master Math and Physics.",
       },
-      { property: "og:title", content: "BrainRush — Level Up Your Mind" },
+      { property: "og:title", content: "NUMERIX — Alessandro Volta Academic Arena" },
       {
         property: "og:description",
         content:
-          "Gamified math and physics practice with XP, ranked challenges, boss battles, and an AI tutor.",
+          "Compete with your Volta classmates through Math and Physics challenges, weekly competitions, boss battles, and live school rankings.",
       },
     ],
   }),
@@ -57,38 +57,38 @@ function Landing() {
         <div className="relative max-w-5xl mx-auto">
           <div className="inline-flex items-center gap-2 glass px-4 py-1.5 rounded-full text-xs text-muted-foreground mb-6">
             <span className="h-2 w-2 rounded-full bg-success animate-pulse" />
-            84,210 students grinding right now
+            147 Volta students online · weekly reset in 6h
           </div>
           <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold tracking-tighter leading-[1.05]">
-            Level Up <br />
-            <span className="text-gradient">Your Mind.</span>
+            Climb the <br />
+            <span className="text-gradient">Volta Ladder.</span>
           </h1>
           <p className="mt-6 max-w-2xl mx-auto text-lg text-muted-foreground">
-            A gamified academic platform that transforms Mathematics and Physics practice into an interactive
-            competitive experience.
+            NUMERIX is the exclusive academic arena for Alessandro Volta. Battle your classmates in
+            Mathematics and Physics, climb the school rankings, and earn your spot among the legends.
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
             <Link
               to="/dashboard"
               className="group inline-flex items-center gap-2 px-6 py-3.5 rounded-xl gradient-primary text-primary-foreground font-semibold glow hover:glow-strong transition-all"
             >
-              Start Learning Free
+              Enter the Arena
               <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
-              to="/challenges"
+              to="/leaderboard"
               className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl glass-strong font-semibold hover:bg-secondary/50 transition-colors"
             >
               <Trophy size={18} className="text-warning" />
-              Try a Challenge
+              See School Ranking
             </Link>
           </div>
 
           {/* Floating preview cards */}
           <div className="mt-20 grid sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
-            <FloatCard icon="🔥" label="Daily Streak" value="17 days" tint="from-orange-500/20 to-red-500/10" />
-            <FloatCard icon="⚡" label="XP Earned" value="12,480" tint="from-blue-500/20 to-purple-500/10" />
-            <FloatCard icon="🏆" label="Global Rank" value="#142" tint="from-purple-500/20 to-pink-500/10" />
+            <FloatCard icon="🔥" label="Your Streak" value="12 days" tint="from-orange-500/20 to-red-500/10" />
+            <FloatCard icon="⚡" label="Weekly XP" value="+4,300" tint="from-blue-500/20 to-purple-500/10" />
+            <FloatCard icon="🏆" label="Volta Rank" value="#19 / 200" tint="from-purple-500/20 to-pink-500/10" />
           </div>
         </div>
       </section>
@@ -109,16 +109,16 @@ function Landing() {
       <section id="features" className="relative z-10 px-6 lg:px-10 py-24">
         <div className="max-w-6xl mx-auto">
           <SectionHeader
-            tag="Why BrainRush"
-            title="Practice that actually feels good."
-            subtitle="Every problem you solve fuels XP, ranks, streaks, and rewards. Studying becomes the loop you don't want to break."
+            tag="Why NUMERIX"
+            title="Built for Volta. Ruled by you."
+            subtitle="Every problem you solve fuels XP, school rank, streaks, and rewards. Studying becomes the loop you don't want to break — because your classmates are watching."
           />
           <div className="mt-14 grid md:grid-cols-3 gap-4">
-            <Feature icon={<Zap />} title="XP & Levels" desc="Earn XP for every solved problem. Climb levels and unlock new tiers of challenges." />
-            <Feature icon={<Trophy />} title="Ranked Mode" desc="Compete against students worldwide. Bronze to Diamond — prove your math IQ." />
+            <Feature icon={<Zap />} title="XP & Levels" desc="Earn XP for every solved problem. Climb levels and unlock higher tiers in the Volta arena." />
+            <Feature icon={<Trophy />} title="School Rankings" desc="Compete against your 200 Volta classmates. Rookie to Volta Legend — prove who's really #1." />
             <Feature icon={<Brain />} title="Adaptive AI" desc="Nova AI spots your weakest topics and recommends the exact problems you need." />
-            <Feature icon={<Target />} title="Daily Missions" desc="Quick quests keep your streak alive and your brain warm every single day." />
-            <Feature icon={<Sparkles />} title="Boss Battles" desc="Defeat Newton, Einstein and the Calculus Titan in epic multi-round duels." />
+            <Feature icon={<Target />} title="Daily Missions" desc="Quick quests keep your streak alive and your brain warm before every class." />
+            <Feature icon={<Sparkles />} title="Boss Battles" desc="Defeat Newton, Einstein and the Calculus Titan — only a few Volta students ever beat them." />
             <Feature icon={<TrendingUp />} title="Deep Analytics" desc="Heatmaps, radar charts, and trends so you always know what to study next." />
           </div>
         </div>
@@ -153,17 +153,17 @@ function Landing() {
       <section id="ranks" className="relative z-10 px-6 lg:px-10 py-24">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 items-center">
           <div>
-            <SectionHeader tag="Competitive" title="Climb the global ladder." align="left" />
+            <SectionHeader tag="Competitive" title="Climb the Volta ladder." align="left" />
             <p className="mt-4 text-muted-foreground">
-              From Bronze to Mythic, every rank unlocks new visuals, badges, and bragging rights. Your weekly
-              performance decides if you climb — or get knocked back down.
+              From Rookie to Volta Legend, every rank unlocks new visuals, badges, and bragging rights inside
+              Alessandro Volta. Your weekly performance decides if you climb — or get knocked back down.
             </p>
             <div className="mt-8 flex gap-2 flex-wrap">
-              {["Bronze", "Silver", "Gold", "Platinum", "Diamond", "Mythic"].map((r, i) => (
+              {["Rookie", "Challenger", "Academic Warrior", "Elite Solver", "Quantum Mind", "Nova Master", "Galactic Scholar", "Volta Legend"].map((r, i) => (
                 <span
                   key={r}
                   className={`px-3 py-1.5 rounded-lg text-xs font-bold ${
-                    i === 4 ? "gradient-primary text-primary-foreground glow" : "glass text-muted-foreground"
+                    i === 3 ? "gradient-primary text-primary-foreground glow" : "glass text-muted-foreground"
                   }`}
                 >
                   {r}
@@ -173,7 +173,7 @@ function Landing() {
           </div>
           <div className="glass-strong rounded-2xl p-6 shadow-card">
             <div className="flex items-center justify-between mb-4">
-              <div className="font-semibold">Weekly Top 5</div>
+              <div className="font-semibold">Volta Top 5 · This Week</div>
               <span className="text-xs text-muted-foreground">Live · updated 2m ago</span>
             </div>
             <div className="space-y-2">
@@ -208,12 +208,12 @@ function Landing() {
       {/* Testimonials */}
       <section id="testimonials" className="relative z-10 px-6 lg:px-10 py-24">
         <div className="max-w-6xl mx-auto">
-          <SectionHeader tag="Students" title="Loved by the toughest critics." />
+          <SectionHeader tag="Volta Students" title="The arena, in their words." />
           <div className="mt-12 grid md:grid-cols-3 gap-4">
             {[
-              { name: "Maya, 16", quote: "I went from failing physics to top of my class in two months. The boss battles are addictive.", avatar: "M" },
-              { name: "Diego, 17", quote: "Honestly the only reason I open a math book anymore. Streaks hit different.", avatar: "D" },
-              { name: "Aisha, 15", quote: "Nova AI explains things better than my textbook. And it never gets tired of my dumb questions.", avatar: "A" },
+              { name: "Tomy · Volta", quote: "I climbed 3 spots in a single week. Once you're in the Top 10, you don't want to drop out.", avatar: "T" },
+              { name: "Tamu · Volta", quote: "Boss Battles are insane. Only 8 of us beat the Calculus Titan — and the whole class knew about it.", avatar: "T" },
+              { name: "Edu · Volta", quote: "I've held #1 for two weeks. Boarlos is right behind me. This is the only ranking that matters at school.", avatar: "E" },
             ].map((t) => (
               <div key={t.name} className="glass rounded-2xl p-6 hover:glow transition-shadow">
                 <div className="flex gap-1 text-warning mb-3">
@@ -238,10 +238,10 @@ function Landing() {
           <div className="absolute inset-0 gradient-primary opacity-10" />
           <div className="relative">
             <h2 className="text-4xl lg:text-5xl font-bold tracking-tight">
-              Your <span className="text-gradient">first level</span> is waiting.
+              Your spot on the <span className="text-gradient">Volta ladder</span> is waiting.
             </h2>
             <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
-              Free forever. No credit card. Just your brain and a streak counter.
+              200 students. One ranking. Weekly resets. Find out where you really stand.
             </p>
             <Link
               to="/dashboard"
@@ -256,7 +256,7 @@ function Landing() {
       <footer className="relative z-10 px-6 lg:px-10 py-10 border-t border-border">
         <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-4">
           <Logo size="sm" />
-          <div className="text-xs text-muted-foreground">© 2025 BrainRush. Built for curious minds.</div>
+          <div className="text-xs text-muted-foreground">© 2025 NUMERIX · Built for Alessandro Volta students.</div>
         </div>
       </footer>
     </div>

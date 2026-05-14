@@ -8,7 +8,7 @@ import {
 import { Flame, Trophy, Coins, Sparkles, ArrowRight, Target } from "lucide-react";
 
 export const Route = createFileRoute("/dashboard")({
-  head: () => ({ meta: [{ title: "Dashboard — BrainRush" }] }),
+  head: () => ({ meta: [{ title: "Dashboard — NUMERIX" }] }),
   component: Dashboard,
 });
 
@@ -20,8 +20,9 @@ function Dashboard() {
         {/* Header */}
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <div className="text-sm text-muted-foreground">Welcome back,</div>
+            <div className="text-sm text-muted-foreground">Welcome back to NUMERIX,</div>
             <h1 className="text-3xl lg:text-4xl font-bold tracking-tight">{user.name} ⚡</h1>
+            <div className="mt-1 text-xs text-muted-foreground">Volta Rank #{user.globalRank} / {user.totalStudents} · weekly reset in 6h 24m</div>
           </div>
           <div className="flex flex-wrap gap-2">
             <Pill icon={<Flame size={14} className="text-orange-400" />} label={`${user.streak}-day streak`} />

@@ -5,7 +5,7 @@ import { useState, useRef, useEffect } from "react";
 import { Sparkles, Send, Lightbulb, BookOpen, Brain } from "lucide-react";
 
 export const Route = createFileRoute("/ai-tutor")({
-  head: () => ({ meta: [{ title: "Nova AI — BrainRush" }] }),
+  head: () => ({ meta: [{ title: "Nova AI — NUMERIX" }] }),
   component: AITutor,
 });
 

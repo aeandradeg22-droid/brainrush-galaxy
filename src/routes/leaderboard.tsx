@@ -5,20 +5,20 @@ import { useState } from "react";
 import { ArrowUp, ArrowDown, Minus, Trophy, Medal } from "lucide-react";
 
 export const Route = createFileRoute("/leaderboard")({
-  head: () => ({ meta: [{ title: "Leaderboard — BrainRush" }] }),
+  head: () => ({ meta: [{ title: "Leaderboard — NUMERIX" }] }),
   component: Leaderboard,
 });
 
-const tabs = ["Global", "Weekly", "Friends", "Class"];
+const tabs = ["Volta School", "This Week", "My Class", "All-Time"];
 
 function Leaderboard() {
-  const [tab, setTab] = useState("Weekly");
+  const [tab, setTab] = useState("This Week");
   return (
     <AppShell>
       <div className="p-6 lg:p-10 space-y-8 max-w-6xl">
         <div>
-          <h1 className="text-3xl lg:text-4xl font-bold tracking-tight">Leaderboard</h1>
-          <p className="mt-1 text-muted-foreground">The ladder is brutal. Climb anyway.</p>
+          <h1 className="text-3xl lg:text-4xl font-bold tracking-tight">Volta Ranking</h1>
+          <p className="mt-1 text-muted-foreground">200 students. One ladder. Edu maintains first place — Tomy climbed 3 positions this week.</p>
         </div>
 
         {/* Podium */}

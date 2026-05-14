@@ -6,7 +6,7 @@ import { Clock, Users, Zap, Swords, Flame, Crown } from "lucide-react";
 import { QuizInterface } from "@/components/QuizInterface";
 
 export const Route = createFileRoute("/challenges")({
-  head: () => ({ meta: [{ title: "Challenges — BrainRush" }] }),
+  head: () => ({ meta: [{ title: "Challenges — NUMERIX" }] }),
   component: Challenges,
 });
 

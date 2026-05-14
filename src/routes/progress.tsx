@@ -8,7 +8,7 @@ import {
 } from "recharts";
 
 export const Route = createFileRoute("/progress")({
-  head: () => ({ meta: [{ title: "Analytics — BrainRush" }] }),
+  head: () => ({ meta: [{ title: "Analytics — NUMERIX" }] }),
   component: Progress,
 });
 

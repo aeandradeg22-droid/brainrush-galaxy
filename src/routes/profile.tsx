@@ -5,7 +5,7 @@ import { user, achievements, xpHistory, subjects } from "@/lib/mock-data";
 import { Edit3, Trophy, Flame, Target, Calendar } from "lucide-react";
 
 export const Route = createFileRoute("/profile")({
-  head: () => ({ meta: [{ title: "Profile — BrainRush" }] }),
+  head: () => ({ meta: [{ title: "Profile — NUMERIX" }] }),
   component: Profile,
 });
 
@@ -53,7 +53,7 @@ function Profile() {
 
         {/* Stat strip */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <Stat icon={<Trophy className="text-warning" size={18} />} label="Global rank" value={`#${user.globalRank}`} />
+          <Stat icon={<Trophy className="text-warning" size={18} />} label="Volta rank" value={`#${user.globalRank} / ${user.totalStudents}`} />
           <Stat icon={<Flame className="text-orange-400" size={18} />} label="Streak" value={`${user.streak} days`} />
           <Stat icon={<Target className="text-success" size={18} />} label="Accuracy" value="83%" />
           <Stat icon={<Calendar className="text-primary" size={18} />} label="Favorite" value={user.favoriteSubject} />
@@ -109,10 +109,10 @@ function Profile() {
             <div className="mt-6 font-semibold mb-3">Rank history</div>
             <div className="space-y-2 text-sm">
               {[
-                { date: "Now", rank: "Diamond III", color: "text-primary" },
-                { date: "2w ago", rank: "Diamond IV", color: "text-muted-foreground" },
-                { date: "1mo ago", rank: "Platinum I", color: "text-muted-foreground" },
-                { date: "2mo ago", rank: "Platinum III", color: "text-muted-foreground" },
+                { date: "Now", rank: "Elite Solver", color: "text-primary" },
+                { date: "2w ago", rank: "Academic Warrior", color: "text-muted-foreground" },
+                { date: "1mo ago", rank: "Challenger", color: "text-muted-foreground" },
+                { date: "2mo ago", rank: "Rookie", color: "text-muted-foreground" },
               ].map((r) => (
                 <div key={r.date} className="flex items-center justify-between">
                   <span className="text-xs text-muted-foreground">{r.date}</span>

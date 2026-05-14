@@ -4,7 +4,7 @@ import { rewards, achievements, user } from "@/lib/mock-data";
 import { Coins, Lock } from "lucide-react";
 
 export const Route = createFileRoute("/rewards")({
-  head: () => ({ meta: [{ title: "Rewards — BrainRush" }] }),
+  head: () => ({ meta: [{ title: "Rewards — NUMERIX" }] }),
   component: Rewards,
 });
 

@@ -1,23 +1,25 @@
 export const user = {
-  name: "Alex Chen",
-  username: "@alexc",
-  level: 24,
-  xp: 12480,
-  xpToNext: 15000,
-  streak: 17,
-  rank: "Diamond III",
+  name: "Vale",
+  username: "@vale",
+  level: 28,
+  xp: 14820,
+  xpToNext: 17000,
+  streak: 12,
+  rank: "Elite Solver",
   coins: 2340,
-  globalRank: 142,
-  avatar: "AC",
+  globalRank: 19,
+  avatar: "VA",
   joined: "Sep 2025",
   favoriteSubject: "Physics",
+  school: "Alessandro Volta",
+  totalStudents: 200,
 };
 
 export const stats = [
-  { label: "Active Learners", value: "84,210" },
-  { label: "Problems Solved", value: "12.4M" },
-  { label: "Avg. Score Boost", value: "+38%" },
-  { label: "Daily Streaks", value: "21,508" },
+  { label: "Volta Students", value: "200" },
+  { label: "Problems Solved", value: "48,210" },
+  { label: "Avg. Grade Boost", value: "+27%" },
+  { label: "Active Streaks", value: "147" },
 ];
 
 export const subjects = [
@@ -47,15 +49,38 @@ export const bossBattles = [
   { id: "quantum", name: "Quantum Rush", subject: "Modern Physics", hp: "22,000 XP", reward: "Quantum Skin", color: "from-cyan-500 via-blue-500 to-purple-600", icon: "⚛" },
 ];
 
+export const ranks = [
+  "Rookie",
+  "Challenger",
+  "Academic Warrior",
+  "Elite Solver",
+  "Quantum Mind",
+  "Nova Master",
+  "Galactic Scholar",
+  "Volta Legend",
+];
+
 export const leaderboard = [
-  { rank: 1, name: "Sofia Mendes", xp: 48210, level: 47, change: 0, avatar: "SM" },
-  { rank: 2, name: "Liam Park", xp: 45890, level: 45, change: 1, avatar: "LP" },
-  { rank: 3, name: "Yuki Tanaka", xp: 44320, level: 44, change: -1, avatar: "YT" },
-  { rank: 4, name: "Carlos Rivera", xp: 39880, level: 41, change: 2, avatar: "CR" },
-  { rank: 5, name: "Aisha Khan", xp: 37210, level: 39, change: 0, avatar: "AK" },
-  { rank: 6, name: "Mateo Silva", xp: 34020, level: 37, change: 3, avatar: "MS" },
-  { rank: 7, name: "Hannah Cohen", xp: 31700, level: 35, change: -2, avatar: "HC" },
-  { rank: 8, name: "Diego Romero", xp: 29410, level: 33, change: 1, avatar: "DR" },
+  { rank: 1, name: "Edu", xp: 48210, level: 47, change: 0, avatar: "ED" },
+  { rank: 2, name: "Boarlos", xp: 45890, level: 45, change: 2, avatar: "BO" },
+  { rank: 3, name: "Tamu", xp: 44320, level: 44, change: 1, avatar: "TA" },
+  { rank: 4, name: "It's Mat", xp: 41880, level: 42, change: -2, avatar: "IM" },
+  { rank: 5, name: "Tomy", xp: 39410, level: 40, change: 3, avatar: "TO" },
+  { rank: 6, name: "Nacho te humillo", xp: 36720, level: 38, change: 0, avatar: "NA" },
+  { rank: 7, name: "Gatha", xp: 34510, level: 36, change: 1, avatar: "GA" },
+  { rank: 8, name: "Amelix", xp: 32180, level: 35, change: -1, avatar: "AM" },
+  { rank: 9, name: "Aulestia", xp: 30240, level: 33, change: 2, avatar: "AU" },
+  { rank: 10, name: "Villa", xp: 28910, level: 32, change: -1, avatar: "VI" },
+  { rank: 11, name: "Giu Giu", xp: 27340, level: 31, change: 4, avatar: "GG" },
+  { rank: 12, name: "Bolo", xp: 25820, level: 30, change: 0, avatar: "BL" },
+  { rank: 13, name: "Mari", xp: 24110, level: 28, change: -2, avatar: "MA" },
+  { rank: 14, name: "Emi", xp: 22580, level: 27, change: 1, avatar: "EM" },
+  { rank: 15, name: "Paula M", xp: 20940, level: 26, change: 3, avatar: "PM" },
+  { rank: 16, name: "Toledin", xp: 19620, level: 25, change: -1, avatar: "TL" },
+  { rank: 17, name: "Dianita", xp: 17880, level: 23, change: 0, avatar: "DI" },
+  { rank: 18, name: "Beca", xp: 16240, level: 22, change: 2, avatar: "BE" },
+  { rank: 19, name: "Espe", xp: 14710, level: 20, change: -1, avatar: "ES" },
+  { rank: 20, name: "Pauli", xp: 18420, level: 31, change: 1, avatar: "PA" },
 ];
 
 export const missions = [

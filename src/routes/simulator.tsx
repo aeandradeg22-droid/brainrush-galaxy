@@ -7,7 +7,7 @@ import {
 import { Play, RotateCcw, Atom } from "lucide-react";
 
 export const Route = createFileRoute("/simulator")({
-  head: () => ({ meta: [{ title: "Physics Lab — BrainRush" }] }),
+  head: () => ({ meta: [{ title: "Physics Lab — NUMERIX" }] }),
   component: Simulator,
 });
 
