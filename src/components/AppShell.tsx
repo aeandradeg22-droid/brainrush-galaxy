@@ -29,6 +29,7 @@ const nav = [
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const path = useRouterState({ select: (s) => s.location.pathname });
+  const { state: user, level, rank } = useUser();
 
   return (
     <div className="min-h-screen w-full flex">
