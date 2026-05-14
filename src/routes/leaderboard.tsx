@@ -66,25 +66,28 @@ function Leaderboard() {
             <div className="col-span-2 text-right">XP</div>
             <div className="col-span-1 text-right">Δ</div>
           </div>
-          {leaderboard.map((p) => (
+          {merged.map((p: any) => (
             <div
-              key={p.rank}
-              className="grid grid-cols-12 px-5 py-3.5 items-center text-sm hover:bg-secondary/30 transition border-b border-border/50 last:border-0"
+              key={p.name + p.rank}
+              className={`grid grid-cols-12 px-5 py-3.5 items-center text-sm transition border-b border-border/50 last:border-0 ${p.isYou ? "bg-primary/10 border-l-4 border-l-primary" : "hover:bg-secondary/30"}`}
             >
               <div className="col-span-1 font-bold">{p.rank}</div>
               <div className="col-span-6 flex items-center gap-3">
-                <div className="h-10 w-10 rounded-full bg-secondary grid place-items-center font-bold text-xs">
+                <div className={`h-10 w-10 rounded-full grid place-items-center font-bold text-xs ${p.isYou ? "gradient-primary text-primary-foreground glow" : "bg-secondary"}`}>
                   {p.avatar}
                 </div>
                 <div>
-                  <div className="font-semibold">{p.name}</div>
-                  <div className="text-xs text-muted-foreground">@{p.name.toLowerCase().replace(" ", "")}</div>
+                  <div className="font-semibold flex items-center gap-2">
+                    {p.name}
+                    {p.isYou && <span className="text-xs px-1.5 py-0.5 rounded bg-primary/30 text-primary-foreground">YOU</span>}
+                  </div>
+                  <div className="text-xs text-muted-foreground">@{p.name.toLowerCase().replace(/\s+/g, "")}</div>
                 </div>
               </div>
               <div className="col-span-2 text-center">
                 <span className="px-2 py-0.5 rounded-md gradient-primary text-primary-foreground text-xs font-bold">Lv {p.level}</span>
               </div>
-              <div className="col-span-2 text-right font-bold text-gradient">{p.xp.toLocaleString()}</div>
+              <div className="col-span-2 text-right font-bold text-gradient">{fmt(p.xp)}</div>
               <div className="col-span-1 text-right">
                 {p.change > 0 ? (
                   <span className="inline-flex items-center text-success text-xs font-bold"><ArrowUp size={12} />{p.change}</span>
@@ -97,28 +100,29 @@ function Leaderboard() {
             </div>
           ))}
 
-          {/* You */}
-          <div className="grid grid-cols-12 px-5 py-4 items-center text-sm bg-primary/10 border-t-2 border-primary/30">
-            <div className="col-span-1 font-bold">{user.globalRank}</div>
-            <div className="col-span-6 flex items-center gap-3">
-              <div className="h-10 w-10 rounded-full gradient-primary grid place-items-center font-bold text-xs text-primary-foreground glow">
-                {user.avatar}
-              </div>
-              <div>
-                <div className="font-semibold flex items-center gap-2">
-                  {user.name} <span className="text-xs px-1.5 py-0.5 rounded bg-primary/30 text-primary-foreground">YOU</span>
+          {!inTop20 && (
+            <div className="grid grid-cols-12 px-5 py-4 items-center text-sm bg-primary/10 border-t-2 border-primary/30">
+              <div className="col-span-1 font-bold">#{voltaRank}</div>
+              <div className="col-span-6 flex items-center gap-3">
+                <div className="h-10 w-10 rounded-full gradient-primary grid place-items-center font-bold text-xs text-primary-foreground glow">
+                  {user.avatar}
                 </div>
-                <div className="text-xs text-muted-foreground">{user.username}</div>
+                <div>
+                  <div className="font-semibold flex items-center gap-2">
+                    {user.name} <span className="text-xs px-1.5 py-0.5 rounded bg-primary/30 text-primary-foreground">YOU</span>
+                  </div>
+                  <div className="text-xs text-muted-foreground">{user.username}</div>
+                </div>
+              </div>
+              <div className="col-span-2 text-center">
+                <span className="px-2 py-0.5 rounded-md gradient-primary text-primary-foreground text-xs font-bold">Lv {level}</span>
+              </div>
+              <div className="col-span-2 text-right font-bold text-gradient">{fmt(user.xp)}</div>
+              <div className="col-span-1 text-right">
+                {nextAhead ? <span className="inline-flex items-center text-success text-xs font-bold"><TrendingUp size={12} /></span> : <Minus size={12} className="text-muted-foreground inline" />}
               </div>
             </div>
-            <div className="col-span-2 text-center">
-              <span className="px-2 py-0.5 rounded-md gradient-primary text-primary-foreground text-xs font-bold">Lv {user.level}</span>
-            </div>
-            <div className="col-span-2 text-right font-bold text-gradient">{user.xp.toLocaleString()}</div>
-            <div className="col-span-1 text-right">
-              <span className="inline-flex items-center text-success text-xs font-bold"><ArrowUp size={12} />4</span>
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </AppShell>
