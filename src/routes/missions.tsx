@@ -1,8 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/AppShell";
 import { ProgressBar } from "@/components/ProgressBar";
-import { missions } from "@/lib/mock-data";
+import { missions, missionQuizzes } from "@/lib/mock-data";
 import { Check, Clock } from "lucide-react";
+import { QuizInterface } from "@/components/QuizInterface";
+import { useState } from "react";
 
 export const Route = createFileRoute("/missions")({
   head: () => ({ meta: [{ title: "Daily Missions — BrainRush" }] }),
@@ -10,8 +12,20 @@ export const Route = createFileRoute("/missions")({
 });
 
 function Missions() {
+  const [activeMission, setActiveMission] = useState<number | null>(null);
   const totalXp = missions.reduce((sum, m) => sum + m.xp, 0);
   const claimed = missions.filter((m) => m.done).reduce((s, m) => s + m.xp, 0);
+
+  function handleMissionComplete(score: number, xp: number) {
+    console.log(`Mission completed: ${score} correct, ${xp} XP earned`);
+  }
+
+  function handleMissionStart(missionId: number) {
+    if (missionId !== 3) {
+      setActiveMission(missionId);
+    }
+  }
+
   return (
     <AppShell>
       <div className="p-6 lg:p-10 space-y-6 max-w-5xl">
@@ -66,7 +80,8 @@ function Missions() {
                 <div className="text-[10px] text-muted-foreground uppercase tracking-wider">XP</div>
               </div>
               <button
-                disabled={m.done}
+                onClick={() => m.progress >= m.total || m.done ? null : handleMissionStart(m.id)}
+                disabled={m.done || m.progress >= m.total}
                 className="px-4 py-2 rounded-lg text-xs font-bold transition gradient-primary text-primary-foreground glow hover:glow-strong disabled:bg-none disabled:bg-secondary disabled:text-muted-foreground disabled:opacity-60"
               >
                 {m.done ? "Claimed" : m.progress >= m.total ? "Claim" : "Start"}
@@ -75,6 +90,19 @@ function Missions() {
           ))}
         </div>
       </div>
+
+      {/* Quiz Modal */}
+      {activeMission && missionQuizzes[activeMission] && (
+        <QuizInterface
+          title={missionQuizzes[activeMission].title}
+          topic={missionQuizzes[activeMission].topic}
+          questions={missionQuizzes[activeMission].questions}
+          reward={missionQuizzes[activeMission].reward}
+          timed={missionQuizzes[activeMission].timed}
+          onComplete={handleMissionComplete}
+          onExit={() => setActiveMission(null)}
+        />
+      )}
     </AppShell>
   );
 }

@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/AppShell";
-import { challenges, bossBattles, subjects } from "@/lib/mock-data";
+import { challenges, bossBattles, subjects, bossBattleQuizzes } from "@/lib/mock-data";
 import { useState } from "react";
 import { Clock, Users, Zap, Swords, Flame, Crown } from "lucide-react";
+import { QuizInterface } from "@/components/QuizInterface";
 
 export const Route = createFileRoute("/challenges")({
   head: () => ({ meta: [{ title: "Challenges — BrainRush" }] }),
@@ -22,8 +23,14 @@ function diffColor(d: string) {
 
 function Challenges() {
   const [filter, setFilter] = useState<string>("All");
+  const [activeBoss, setActiveBoss] = useState<string | null>(null);
   const cats = ["All", ...subjects.map((s) => s.name)];
   const list = filter === "All" ? challenges : challenges.filter((c) => c.subject === filter);
+
+  function handleBossComplete(score: number, xp: number) {
+    console.log(`Boss battle completed: ${score} correct, ${xp} XP earned`);
+  }
+
   return (
     <AppShell>
       <div className="p-6 lg:p-10 space-y-8 max-w-7xl">
@@ -77,16 +84,16 @@ function Challenges() {
                   </div>
                   <div className="mt-6 text-2xl font-bold">{b.name}</div>
                   <div className="text-sm opacity-80">{b.subject}</div>
+                  <div className="mt-2 text-xs opacity-90 mb-4 max-h-20 overflow-y-auto">{bossBattleQuizzes[b.id].purpose}</div>
                   <div className="mt-5 flex items-center justify-between text-xs">
-                    <div>
-                      <div className="opacity-70">HP</div>
-                      <div className="font-bold text-base">{b.hp}</div>
-                    </div>
                     <div>
                       <div className="opacity-70">Reward</div>
                       <div className="font-bold text-base">{b.reward}</div>
                     </div>
-                    <button className="px-4 py-2 rounded-lg bg-white text-black font-bold text-xs hover:scale-105 transition">
+                    <button
+                      onClick={() => setActiveBoss(b.id)}
+                      className="px-4 py-2 rounded-lg bg-white text-black font-bold text-xs hover:scale-105 transition"
+                    >
                       Engage
                     </button>
                   </div>
@@ -147,6 +154,18 @@ function Challenges() {
           </div>
         </div>
       </div>
+
+      {/* Quiz Modal */}
+      {activeBoss && bossBattleQuizzes[activeBoss] && (
+        <QuizInterface
+          title={bossBattles.find((b) => b.id === activeBoss)?.name || "Boss Battle"}
+          topic={bossBattleQuizzes[activeBoss].topic}
+          questions={bossBattleQuizzes[activeBoss].questions}
+          reward={bossBattleQuizzes[activeBoss].reward}
+          onComplete={handleBossComplete}
+          onExit={() => setActiveBoss(null)}
+        />
+      )}
     </AppShell>
   );
 }
