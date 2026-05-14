@@ -208,12 +208,12 @@ function Landing() {
       {/* Testimonials */}
       <section id="testimonials" className="relative z-10 px-6 lg:px-10 py-24">
         <div className="max-w-6xl mx-auto">
-          <SectionHeader tag="Students" title="Loved by the toughest critics." />
+          <SectionHeader tag="Volta Students" title="The arena, in their words." />
           <div className="mt-12 grid md:grid-cols-3 gap-4">
             {[
-              { name: "Maya, 16", quote: "I went from failing physics to top of my class in two months. The boss battles are addictive.", avatar: "M" },
-              { name: "Diego, 17", quote: "Honestly the only reason I open a math book anymore. Streaks hit different.", avatar: "D" },
-              { name: "Aisha, 15", quote: "Nova AI explains things better than my textbook. And it never gets tired of my dumb questions.", avatar: "A" },
+              { name: "Tomy · Volta", quote: "I climbed 3 spots in a single week. Once you're in the Top 10, you don't want to drop out.", avatar: "T" },
+              { name: "Tamu · Volta", quote: "Boss Battles are insane. Only 8 of us beat the Calculus Titan — and the whole class knew about it.", avatar: "T" },
+              { name: "Edu · Volta", quote: "I've held #1 for two weeks. Boarlos is right behind me. This is the only ranking that matters at school.", avatar: "E" },
             ].map((t) => (
               <div key={t.name} className="glass rounded-2xl p-6 hover:glow transition-shadow">
                 <div className="flex gap-1 text-warning mb-3">
