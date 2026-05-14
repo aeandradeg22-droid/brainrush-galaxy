@@ -165,7 +165,7 @@ function Challenges() {
                     <div className="text-muted-foreground text-[10px] mt-0.5">Completed</div>
                   </div>
                 </div>
-                <button className="mt-4 w-full py-2 rounded-lg gradient-primary text-primary-foreground text-sm font-semibold glow hover:glow-strong transition">
+                <button onClick={() => setActiveChallenge(c.id)} className="mt-4 w-full py-2 rounded-lg gradient-primary text-primary-foreground text-sm font-semibold glow hover:glow-strong transition">
                   Start
                 </button>
               </div>
