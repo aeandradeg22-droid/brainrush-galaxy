@@ -98,13 +98,16 @@ function Profile() {
           <div className="glass rounded-2xl p-6">
             <div className="font-semibold mb-4">Recent activity</div>
             <div className="space-y-3">
+              {recent.length === 0 && (
+                <div className="text-xs text-muted-foreground">No recent activity yet — complete a mission or practice topic to start earning XP.</div>
+              )}
               {recent.map((r) => (
-                <div key={r.day} className="flex items-center justify-between text-sm">
-                  <div className="flex items-center gap-3">
-                    <div className="h-8 w-8 rounded-lg glass grid place-items-center text-xs font-bold">{r.day}</div>
-                    <span className="text-muted-foreground">Earned XP</span>
+                <div key={r.id} className="flex items-center justify-between text-sm">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="h-8 w-8 rounded-lg glass grid place-items-center text-xs font-bold uppercase">{r.type[0]}</div>
+                    <span className="text-muted-foreground truncate">{r.label}</span>
                   </div>
-                  <span className="font-bold text-gradient">+{r.xp}</span>
+                  <span className="font-bold text-gradient shrink-0 ml-2">+{r.xp}</span>
                 </div>
               ))}
             </div>
