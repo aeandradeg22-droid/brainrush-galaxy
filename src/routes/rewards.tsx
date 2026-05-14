@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/AppShell";
-import { rewards, achievements, user } from "@/lib/mock-data";
+import { rewards, achievements } from "@/lib/mock-data";
+import { useUser } from "@/lib/user-store";
+import { fmt } from "@/lib/level-system";
 import { Coins, Lock } from "lucide-react";
 
 export const Route = createFileRoute("/rewards")({
