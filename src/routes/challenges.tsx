@@ -73,7 +73,7 @@ function Challenges() {
                 </div>
                 <div className="font-semibold text-lg">{m.name}</div>
                 <p className="text-sm text-muted-foreground mt-1">{m.desc}</p>
-              </div>
+              </button>
             );
           })}
         </div>
