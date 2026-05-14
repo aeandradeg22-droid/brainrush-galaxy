@@ -57,38 +57,38 @@ function Landing() {
         <div className="relative max-w-5xl mx-auto">
           <div className="inline-flex items-center gap-2 glass px-4 py-1.5 rounded-full text-xs text-muted-foreground mb-6">
             <span className="h-2 w-2 rounded-full bg-success animate-pulse" />
-            84,210 students grinding right now
+            147 Volta students online · weekly reset in 6h
           </div>
           <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold tracking-tighter leading-[1.05]">
-            Level Up <br />
-            <span className="text-gradient">Your Mind.</span>
+            Climb the <br />
+            <span className="text-gradient">Volta Ladder.</span>
           </h1>
           <p className="mt-6 max-w-2xl mx-auto text-lg text-muted-foreground">
-            A gamified academic platform that transforms Mathematics and Physics practice into an interactive
-            competitive experience.
+            NUMERIX is the exclusive academic arena for Alessandro Volta. Battle your classmates in
+            Mathematics and Physics, climb the school rankings, and earn your spot among the legends.
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
             <Link
               to="/dashboard"
               className="group inline-flex items-center gap-2 px-6 py-3.5 rounded-xl gradient-primary text-primary-foreground font-semibold glow hover:glow-strong transition-all"
             >
-              Start Learning Free
+              Enter the Arena
               <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
-              to="/challenges"
+              to="/leaderboard"
               className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl glass-strong font-semibold hover:bg-secondary/50 transition-colors"
             >
               <Trophy size={18} className="text-warning" />
-              Try a Challenge
+              See School Ranking
             </Link>
           </div>
 
           {/* Floating preview cards */}
           <div className="mt-20 grid sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
-            <FloatCard icon="🔥" label="Daily Streak" value="17 days" tint="from-orange-500/20 to-red-500/10" />
-            <FloatCard icon="⚡" label="XP Earned" value="12,480" tint="from-blue-500/20 to-purple-500/10" />
-            <FloatCard icon="🏆" label="Global Rank" value="#142" tint="from-purple-500/20 to-pink-500/10" />
+            <FloatCard icon="🔥" label="Your Streak" value="12 days" tint="from-orange-500/20 to-red-500/10" />
+            <FloatCard icon="⚡" label="Weekly XP" value="+4,300" tint="from-blue-500/20 to-purple-500/10" />
+            <FloatCard icon="🏆" label="Volta Rank" value="#19 / 200" tint="from-purple-500/20 to-pink-500/10" />
           </div>
         </div>
       </section>
