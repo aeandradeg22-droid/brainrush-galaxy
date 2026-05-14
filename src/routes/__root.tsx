@@ -119,7 +119,10 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
+      <UserProvider>
+        <Outlet />
+        <XpToasts />
+      </UserProvider>
     </QueryClientProvider>
   );
 }
