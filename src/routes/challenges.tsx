@@ -4,6 +4,8 @@ import { challenges, bossBattles, subjects, bossBattleQuizzes } from "@/lib/mock
 import { useState } from "react";
 import { Clock, Users, Zap, Swords, Flame, Crown } from "lucide-react";
 import { QuizInterface } from "@/components/QuizInterface";
+import { PracticeMode } from "@/components/PracticeMode";
+import { useUser } from "@/lib/user-store";
 
 export const Route = createFileRoute("/challenges")({
   head: () => ({ meta: [{ title: "Challenges — NUMERIX" }] }),
@@ -11,8 +13,8 @@ export const Route = createFileRoute("/challenges")({
 });
 
 const modes = [
-  { id: "practice", name: "Practice Mode", desc: "No pressure. Build skill.", color: "from-emerald-500 to-cyan-500", icon: Zap },
-  { id: "ranked", name: "Ranked Mode", desc: "Climb the global ladder.", color: "from-blue-500 to-purple-600", icon: Crown },
+  { id: "practice", name: "Practice Mode", desc: "Theory, examples, interactive Qs.", color: "from-emerald-500 to-cyan-500", icon: Zap },
+  { id: "ranked", name: "Ranked Mode", desc: "Climb the Volta ladder.", color: "from-blue-500 to-purple-600", icon: Crown },
   { id: "boss", name: "Boss Battles", desc: "Epic multi-round duels.", color: "from-orange-500 to-rose-600", icon: Swords },
   { id: "timed", name: "Timed Challenges", desc: "Beat the clock for big XP.", color: "from-purple-500 to-pink-500", icon: Clock },
 ];
@@ -24,11 +26,27 @@ function diffColor(d: string) {
 function Challenges() {
   const [filter, setFilter] = useState<string>("All");
   const [activeBoss, setActiveBoss] = useState<string | null>(null);
+  const [practiceOpen, setPracticeOpen] = useState(false);
+  const [activeChallenge, setActiveChallenge] = useState<number | null>(null);
+  const { defeatBoss, addXp } = useUser();
   const cats = ["All", ...subjects.map((s) => s.name)];
   const list = filter === "All" ? challenges : challenges.filter((c) => c.subject === filter);
 
   function handleBossComplete(score: number, xp: number) {
-    console.log(`Boss battle completed: ${score} correct, ${xp} XP earned`);
+    if (!activeBoss) return;
+    const boss = bossBattles.find((b) => b.id === activeBoss);
+    const total = bossBattleQuizzes[activeBoss]?.questions.length ?? 0;
+    defeatBoss(activeBoss, xp, boss?.name ?? "Boss", score, total);
+  }
+
+  function handleChallengeComplete(score: number, xp: number) {
+    if (activeChallenge == null) return;
+    const c = challenges.find((x) => x.id === activeChallenge);
+    addXp({ xp, label: `Challenge: ${c?.title ?? "Challenge"}`, kind: "challenge", correct: score, total: 5 });
+  }
+
+  function handleModeClick(id: string) {
+    if (id === "practice") setPracticeOpen(true);
   }
 
   return (
