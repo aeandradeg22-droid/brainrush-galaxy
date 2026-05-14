@@ -30,7 +30,7 @@ function Rewards() {
           </div>
           <div className="glass-strong rounded-xl px-5 py-3 flex items-center gap-2 glow">
             <Coins className="text-yellow-400" size={20} />
-            <span className="text-2xl font-bold text-gradient">{user.coins.toLocaleString()}</span>
+            <span className="text-2xl font-bold text-gradient">{fmt(user.coins)}</span>
             <span className="text-xs text-muted-foreground">coins</span>
           </div>
         </div>
