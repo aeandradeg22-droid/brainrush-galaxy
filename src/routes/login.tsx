@@ -17,15 +17,16 @@ function Login() {
         <div className="relative z-10 flex flex-col justify-between p-12 text-primary-foreground">
           <Logo />
           <div>
-            <h2 className="text-5xl font-bold tracking-tight">Welcome back, learner.</h2>
+            <h2 className="text-5xl font-bold tracking-tight">Welcome back, Volta.</h2>
             <p className="mt-4 text-primary-foreground/80 max-w-md">
-              17-day streak waiting. Your weakest topic is calling. Let's get back into the rush.
+              Your 12-day streak is still alive. Edu is at #1 — but Boarlos just climbed 2 positions. The weekly
+              reset hits in 6 hours. Get back in the arena.
             </p>
             <div className="mt-8 grid grid-cols-3 gap-3 max-w-md">
               {[
-                { v: "Lvl 24", l: "Diamond III" },
-                { v: "12,480", l: "Total XP" },
-                { v: "#142", l: "Global" },
+                { v: "Lvl 28", l: "Elite Solver" },
+                { v: "14,820", l: "Total XP" },
+                { v: "#19 / 200", l: "Volta Rank" },
               ].map((s) => (
                 <div key={s.l} className="bg-white/10 backdrop-blur rounded-xl p-3">
                   <div className="text-2xl font-bold">{s.v}</div>
@@ -34,7 +35,7 @@ function Login() {
               ))}
             </div>
           </div>
-          <div className="text-xs opacity-70">© 2025 NUMERIX</div>
+          <div className="text-xs opacity-70">© 2025 NUMERIX · Alessandro Volta</div>
         </div>
       </div>
 
