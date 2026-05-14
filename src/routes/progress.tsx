@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
+import { isAuthed } from "@/lib/auth";
 import { AppShell } from "@/components/AppShell";
 import { accuracyHistory, radarSkills, xpHistory, subjects } from "@/lib/mock-data";
 import {
@@ -9,6 +10,7 @@ import {
 
 export const Route = createFileRoute("/progress")({
   head: () => ({ meta: [{ title: "Analytics — NUMERIX" }] }),
+  beforeLoad: () => { if (!isAuthed()) throw redirect({ to: "/login" }); },
   component: Progress,
 });
 
