@@ -9,6 +9,8 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { UserProvider } from "@/lib/user-store";
+import { XpToasts } from "@/components/XpToasts";
 
 function NotFoundComponent() {
   return (
