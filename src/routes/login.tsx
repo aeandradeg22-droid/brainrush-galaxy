@@ -66,7 +66,7 @@ function Login() {
                 <Mail size={16} className="text-muted-foreground" />
                 <input
                   type="email"
-                  placeholder="you@brainrush.gg"
+                  placeholder="you@volta.edu"
                   className="bg-transparent outline-none flex-1 text-sm"
                 />
               </div>
