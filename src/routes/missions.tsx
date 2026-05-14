@@ -71,19 +71,21 @@ function Missions() {
 
         {/* List */}
         <div className="space-y-3">
-          {missions.map((m) => (
+          {missions.map((m) => {
+            const done = isDone(m.id);
+            return (
             <div
               key={m.id}
-              className={`glass rounded-2xl p-5 flex items-center gap-4 hover:glow transition ${m.done ? "opacity-70" : ""}`}
+              className={`glass rounded-2xl p-5 flex items-center gap-4 hover:glow transition ${done ? "opacity-70" : ""}`}
             >
-              <div className={`h-14 w-14 rounded-xl grid place-items-center text-2xl shrink-0 ${m.done ? "bg-success/20" : "gradient-primary glow"}`}>
-                {m.done ? <Check className="text-success" size={26} /> : m.icon}
+              <div className={`h-14 w-14 rounded-xl grid place-items-center text-2xl shrink-0 ${done ? "bg-success/20" : "gradient-primary glow"}`}>
+                {done ? <Check className="text-success" size={26} /> : m.icon}
               </div>
               <div className="flex-1 min-w-0">
                 <div className="font-semibold">{m.title}</div>
                 <div className="mt-2 flex items-center gap-3">
-                  <div className="flex-1"><ProgressBar value={(m.progress / m.total) * 100} height="h-1.5" /></div>
-                  <div className="text-xs text-muted-foreground shrink-0">{m.progress}/{m.total}</div>
+                  <div className="flex-1"><ProgressBar value={done ? 100 : (m.progress / m.total) * 100} height="h-1.5" /></div>
+                  <div className="text-xs text-muted-foreground shrink-0">{done ? m.total : m.progress}/{m.total}</div>
                 </div>
               </div>
               <div className="text-right shrink-0">
@@ -91,14 +93,15 @@ function Missions() {
                 <div className="text-[10px] text-muted-foreground uppercase tracking-wider">XP</div>
               </div>
               <button
-                onClick={() => m.progress >= m.total || m.done ? null : handleMissionStart(m.id)}
-                disabled={m.done || m.progress >= m.total}
+                onClick={() => done ? null : handleMissionStart(m.id)}
+                disabled={done}
                 className="px-4 py-2 rounded-lg text-xs font-bold transition gradient-primary text-primary-foreground glow hover:glow-strong disabled:bg-none disabled:bg-secondary disabled:text-muted-foreground disabled:opacity-60"
               >
-                {m.done ? "Claimed" : m.progress >= m.total ? "Claim" : "Start"}
+                {done ? "Claimed" : "Start"}
               </button>
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
