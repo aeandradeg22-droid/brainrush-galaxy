@@ -1,5 +1,4 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
-import { isAuthed } from "@/lib/auth";
+import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/AppShell";
 import { leaderboard, user } from "@/lib/mock-data";
 import { useState } from "react";
@@ -7,7 +6,6 @@ import { ArrowUp, ArrowDown, Minus, Trophy, Medal } from "lucide-react";
 
 export const Route = createFileRoute("/leaderboard")({
   head: () => ({ meta: [{ title: "Leaderboard — NUMERIX" }] }),
-  beforeLoad: () => { if (!isAuthed()) throw redirect({ to: "/login" }); },
   component: Leaderboard,
 });
 

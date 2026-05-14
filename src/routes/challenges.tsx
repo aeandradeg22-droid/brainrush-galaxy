@@ -1,5 +1,4 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
-import { isAuthed } from "@/lib/auth";
+import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/AppShell";
 import { challenges, bossBattles, subjects, bossBattleQuizzes } from "@/lib/mock-data";
 import { useState } from "react";
@@ -8,7 +7,6 @@ import { QuizInterface } from "@/components/QuizInterface";
 
 export const Route = createFileRoute("/challenges")({
   head: () => ({ meta: [{ title: "Challenges — NUMERIX" }] }),
-  beforeLoad: () => { if (!isAuthed()) throw redirect({ to: "/login" }); },
   component: Challenges,
 });
 

@@ -1,5 +1,4 @@
-import { createFileRoute, Link, redirect } from "@tanstack/react-router";
-import { isAuthed } from "@/lib/auth";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppShell } from "@/components/AppShell";
 import { ProgressBar } from "@/components/ProgressBar";
 import { user, subjects, missions, xpHistory, challenges } from "@/lib/mock-data";
@@ -10,7 +9,6 @@ import { Flame, Trophy, Coins, Sparkles, ArrowRight, Target } from "lucide-react
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({ meta: [{ title: "Dashboard — NUMERIX" }] }),
-  beforeLoad: () => { if (!isAuthed()) throw redirect({ to: "/login" }); },
   component: Dashboard,
 });
 

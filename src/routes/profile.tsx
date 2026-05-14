@@ -1,5 +1,4 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
-import { isAuthed } from "@/lib/auth";
+import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/AppShell";
 import { ProgressBar } from "@/components/ProgressBar";
 import { user, achievements, xpHistory, subjects } from "@/lib/mock-data";
@@ -7,7 +6,6 @@ import { Edit3, Trophy, Flame, Target, Calendar } from "lucide-react";
 
 export const Route = createFileRoute("/profile")({
   head: () => ({ meta: [{ title: "Profile — NUMERIX" }] }),
-  beforeLoad: () => { if (!isAuthed()) throw redirect({ to: "/login" }); },
   component: Profile,
 });
 

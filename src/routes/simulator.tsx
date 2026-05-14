@@ -1,5 +1,4 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
-import { isAuthed } from "@/lib/auth";
+import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/AppShell";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -9,7 +8,6 @@ import { Play, RotateCcw, Atom } from "lucide-react";
 
 export const Route = createFileRoute("/simulator")({
   head: () => ({ meta: [{ title: "Physics Lab — NUMERIX" }] }),
-  beforeLoad: () => { if (!isAuthed()) throw redirect({ to: "/login" }); },
   component: Simulator,
 });
 
