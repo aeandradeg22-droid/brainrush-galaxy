@@ -15,6 +15,18 @@ const tabs = ["Volta School", "This Week", "My Class", "All-Time"];
 
 function Leaderboard() {
   const [tab, setTab] = useState("This Week");
+  const { state: user, level, voltaRank, progress } = useUser();
+  // Inject the user into the leaderboard, sorted by XP, showing top 20.
+  const merged = useMemo(() => {
+    const all = [...leaderboard, { rank: 0, name: user.name, xp: user.xp, level, change: 0, avatar: user.avatar, isYou: true as const }];
+    const sorted = [...all].sort((a, b) => b.xp - a.xp);
+    return sorted.slice(0, 20).map((p, i) => ({ ...p, rank: i + 1 }));
+  }, [user.xp, user.name, user.avatar, level]);
+  const inTop20 = merged.some((p: any) => p.isYou);
+  const nextAhead = useMemo(() => {
+    const sorted = [...leaderboard].sort((a, b) => b.xp - a.xp);
+    return sorted.find((p) => p.xp > user.xp);
+  }, [user.xp]);
   return (
     <AppShell>
       <div className="p-6 lg:p-10 space-y-8 max-w-6xl">
