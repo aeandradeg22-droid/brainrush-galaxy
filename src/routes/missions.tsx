@@ -5,6 +5,7 @@ import { missions, missionQuizzes } from "@/lib/mock-data";
 import { Check, Clock } from "lucide-react";
 import { QuizInterface } from "@/components/QuizInterface";
 import { useState } from "react";
+import { useUser } from "@/lib/user-store";
 
 export const Route = createFileRoute("/missions")({
   head: () => ({ meta: [{ title: "Daily Missions — NUMERIX" }] }),
@@ -13,17 +14,27 @@ export const Route = createFileRoute("/missions")({
 
 function Missions() {
   const [activeMission, setActiveMission] = useState<number | null>(null);
+  const { state: user, completeMission } = useUser();
   const totalXp = missions.reduce((sum, m) => sum + m.xp, 0);
-  const claimed = missions.filter((m) => m.done).reduce((s, m) => s + m.xp, 0);
+  const claimed = missions
+    .filter((m) => user.completedMissions.includes(m.id))
+    .reduce((s, m) => s + m.xp, 0);
 
-  function handleMissionComplete(score: number, xp: number) {
-    console.log(`Mission completed: ${score} correct, ${xp} XP earned`);
+  function handleMissionComplete(_score: number, xp: number) {
+    if (activeMission == null) return;
+    const m = missions.find((mm) => mm.id === activeMission);
+    if (!m) return;
+    completeMission(activeMission, xp || m.xp, m.title);
+  }
+
+  function isDone(id: number) {
+    return user.completedMissions.includes(id);
   }
 
   function handleMissionStart(missionId: number) {
-    if (missionId !== 3) {
-      setActiveMission(missionId);
-    }
+    if (isDone(missionId)) return;
+    if (missionQuizzes[missionId]) setActiveMission(missionId);
+    else completeMission(missionId, missions.find((m) => m.id === missionId)?.xp ?? 0, missions.find((m) => m.id === missionId)?.title ?? "Mission");
   }
 
   return (
