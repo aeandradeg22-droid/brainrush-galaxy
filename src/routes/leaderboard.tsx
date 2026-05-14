@@ -32,7 +32,7 @@ function Leaderboard() {
       <div className="p-6 lg:p-10 space-y-8 max-w-6xl">
         <div>
           <h1 className="text-3xl lg:text-4xl font-bold tracking-tight">Volta Ranking</h1>
-          <p className="mt-1 text-muted-foreground">200 students. One ladder. Edu maintains first place — Tomy climbed 3 positions this week.</p>
+          <p className="mt-1 text-muted-foreground">200 Alessandro Volta students. One ladder. You are currently <span className="text-foreground font-bold">#{voltaRank}</span>{nextAhead ? <> · only <span className="text-foreground font-bold">{fmt(nextAhead.xp - user.xp)} XP</span> until you surpass <span className="text-foreground font-bold">{nextAhead.name}</span></> : null}.</p>
         </div>
 
         {/* Podium */}
