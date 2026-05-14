@@ -70,7 +70,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </div>
             <div className="min-w-0">
               <div className="text-sm font-semibold truncate">{user.name}</div>
-              <div className="text-xs text-muted-foreground">Lvl {user.level} · {user.rank}</div>
+              <div className="text-xs text-muted-foreground">Lvl {level} · {rank}</div>
             </div>
           </Link>
         </div>
