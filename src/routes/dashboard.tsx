@@ -8,7 +8,7 @@ import {
 import { Flame, Trophy, Coins, Sparkles, ArrowRight, Target } from "lucide-react";
 
 export const Route = createFileRoute("/dashboard")({
-  head: () => ({ meta: [{ title: "Dashboard — BrainRush" }] }),
+  head: () => ({ meta: [{ title: "Dashboard — NUMERIX" }] }),
   component: Dashboard,
 });
 

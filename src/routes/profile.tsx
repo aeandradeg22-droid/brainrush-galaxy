@@ -5,7 +5,7 @@ import { user, achievements, xpHistory, subjects } from "@/lib/mock-data";
 import { Edit3, Trophy, Flame, Target, Calendar } from "lucide-react";
 
 export const Route = createFileRoute("/profile")({
-  head: () => ({ meta: [{ title: "Profile — BrainRush" }] }),
+  head: () => ({ meta: [{ title: "Profile — NUMERIX" }] }),
   component: Profile,
 });
 

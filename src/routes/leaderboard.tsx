@@ -5,7 +5,7 @@ import { useState } from "react";
 import { ArrowUp, ArrowDown, Minus, Trophy, Medal } from "lucide-react";
 
 export const Route = createFileRoute("/leaderboard")({
-  head: () => ({ meta: [{ title: "Leaderboard — BrainRush" }] }),
+  head: () => ({ meta: [{ title: "Leaderboard — NUMERIX" }] }),
   component: Leaderboard,
 });
 

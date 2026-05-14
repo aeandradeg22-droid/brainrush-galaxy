@@ -7,7 +7,7 @@ import { QuizInterface } from "@/components/QuizInterface";
 import { useState } from "react";
 
 export const Route = createFileRoute("/missions")({
-  head: () => ({ meta: [{ title: "Daily Missions — BrainRush" }] }),
+  head: () => ({ meta: [{ title: "Daily Missions — NUMERIX" }] }),
   component: Missions,
 });
 
