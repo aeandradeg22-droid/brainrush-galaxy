@@ -34,7 +34,7 @@ function Login() {
               ))}
             </div>
           </div>
-          <div className="text-xs opacity-70">© 2025 BrainRush</div>
+          <div className="text-xs opacity-70">© 2025 NUMERIX</div>
         </div>
       </div>
 

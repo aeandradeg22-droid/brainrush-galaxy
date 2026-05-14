@@ -7,13 +7,13 @@ import { stats, leaderboard, subjects } from "@/lib/mock-data";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "BrainRush — Level Up Your Mind" },
+      { title: "NUMERIX — Level Up Your Mind" },
       {
         name: "description",
         content:
           "A gamified academic platform that transforms Mathematics and Physics practice into an interactive competitive experience.",
       },
-      { property: "og:title", content: "BrainRush — Level Up Your Mind" },
+      { property: "og:title", content: "NUMERIX — Level Up Your Mind" },
       {
         property: "og:description",
         content:
@@ -109,7 +109,7 @@ function Landing() {
       <section id="features" className="relative z-10 px-6 lg:px-10 py-24">
         <div className="max-w-6xl mx-auto">
           <SectionHeader
-            tag="Why BrainRush"
+            tag="Why NUMERIX"
             title="Practice that actually feels good."
             subtitle="Every problem you solve fuels XP, ranks, streaks, and rewards. Studying becomes the loop you don't want to break."
           />
@@ -256,7 +256,7 @@ function Landing() {
       <footer className="relative z-10 px-6 lg:px-10 py-10 border-t border-border">
         <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-4">
           <Logo size="sm" />
-          <div className="text-xs text-muted-foreground">© 2025 BrainRush. Built for curious minds.</div>
+          <div className="text-xs text-muted-foreground">© 2025 NUMERIX. Built for curious minds.</div>
         </div>
       </footer>
     </div>
