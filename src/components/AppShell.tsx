@@ -12,7 +12,7 @@ import {
   Home,
 } from "lucide-react";
 import { Logo } from "./Logo";
-import { user } from "@/lib/mock-data";
+import { useUser } from "@/lib/user-store";
 
 const nav = [
   { to: "/", label: "Home", icon: Home },
