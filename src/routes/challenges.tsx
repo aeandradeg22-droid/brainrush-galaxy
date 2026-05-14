@@ -185,6 +185,31 @@ function Challenges() {
           onExit={() => setActiveBoss(null)}
         />
       )}
+
+      {activeChallenge != null && (() => {
+        const c = challenges.find((x) => x.id === activeChallenge);
+        if (!c) return null;
+        // Reuse a quick generated quiz from the challenge metadata.
+        const qs = [{
+          id: 1,
+          question: `${c.title} — ready to attempt this ${c.subject} challenge?`,
+          options: ["Yes, give me the question", "Skip", "Maybe later", "Not sure"],
+          correct: 0,
+          explanation: `You earned XP for engaging with ${c.title}. Practice Mode has full theory + step-by-step examples on this topic.`,
+        }];
+        return (
+          <QuizInterface
+            title={c.title}
+            topic={c.subject}
+            questions={qs}
+            reward={c.xp}
+            onComplete={handleChallengeComplete}
+            onExit={() => setActiveChallenge(null)}
+          />
+        );
+      })()}
+
+      <PracticeMode open={practiceOpen} onClose={() => setPracticeOpen(false)} />
     </AppShell>
   );
 }
