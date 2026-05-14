@@ -110,15 +110,15 @@ function Landing() {
         <div className="max-w-6xl mx-auto">
           <SectionHeader
             tag="Why NUMERIX"
-            title="Practice that actually feels good."
-            subtitle="Every problem you solve fuels XP, ranks, streaks, and rewards. Studying becomes the loop you don't want to break."
+            title="Built for Volta. Ruled by you."
+            subtitle="Every problem you solve fuels XP, school rank, streaks, and rewards. Studying becomes the loop you don't want to break — because your classmates are watching."
           />
           <div className="mt-14 grid md:grid-cols-3 gap-4">
-            <Feature icon={<Zap />} title="XP & Levels" desc="Earn XP for every solved problem. Climb levels and unlock new tiers of challenges." />
-            <Feature icon={<Trophy />} title="Ranked Mode" desc="Compete against students worldwide. Bronze to Diamond — prove your math IQ." />
+            <Feature icon={<Zap />} title="XP & Levels" desc="Earn XP for every solved problem. Climb levels and unlock higher tiers in the Volta arena." />
+            <Feature icon={<Trophy />} title="School Rankings" desc="Compete against your 200 Volta classmates. Rookie to Volta Legend — prove who's really #1." />
             <Feature icon={<Brain />} title="Adaptive AI" desc="Nova AI spots your weakest topics and recommends the exact problems you need." />
-            <Feature icon={<Target />} title="Daily Missions" desc="Quick quests keep your streak alive and your brain warm every single day." />
-            <Feature icon={<Sparkles />} title="Boss Battles" desc="Defeat Newton, Einstein and the Calculus Titan in epic multi-round duels." />
+            <Feature icon={<Target />} title="Daily Missions" desc="Quick quests keep your streak alive and your brain warm before every class." />
+            <Feature icon={<Sparkles />} title="Boss Battles" desc="Defeat Newton, Einstein and the Calculus Titan — only a few Volta students ever beat them." />
             <Feature icon={<TrendingUp />} title="Deep Analytics" desc="Heatmaps, radar charts, and trends so you always know what to study next." />
           </div>
         </div>
