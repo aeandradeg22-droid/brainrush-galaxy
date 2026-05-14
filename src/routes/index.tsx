@@ -153,17 +153,17 @@ function Landing() {
       <section id="ranks" className="relative z-10 px-6 lg:px-10 py-24">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 items-center">
           <div>
-            <SectionHeader tag="Competitive" title="Climb the global ladder." align="left" />
+            <SectionHeader tag="Competitive" title="Climb the Volta ladder." align="left" />
             <p className="mt-4 text-muted-foreground">
-              From Bronze to Mythic, every rank unlocks new visuals, badges, and bragging rights. Your weekly
-              performance decides if you climb — or get knocked back down.
+              From Rookie to Volta Legend, every rank unlocks new visuals, badges, and bragging rights inside
+              Alessandro Volta. Your weekly performance decides if you climb — or get knocked back down.
             </p>
             <div className="mt-8 flex gap-2 flex-wrap">
-              {["Bronze", "Silver", "Gold", "Platinum", "Diamond", "Mythic"].map((r, i) => (
+              {["Rookie", "Challenger", "Academic Warrior", "Elite Solver", "Quantum Mind", "Nova Master", "Galactic Scholar", "Volta Legend"].map((r, i) => (
                 <span
                   key={r}
                   className={`px-3 py-1.5 rounded-lg text-xs font-bold ${
-                    i === 4 ? "gradient-primary text-primary-foreground glow" : "glass text-muted-foreground"
+                    i === 3 ? "gradient-primary text-primary-foreground glow" : "glass text-muted-foreground"
                   }`}
                 >
                   {r}
@@ -173,7 +173,7 @@ function Landing() {
           </div>
           <div className="glass-strong rounded-2xl p-6 shadow-card">
             <div className="flex items-center justify-between mb-4">
-              <div className="font-semibold">Weekly Top 5</div>
+              <div className="font-semibold">Volta Top 5 · This Week</div>
               <span className="text-xs text-muted-foreground">Live · updated 2m ago</span>
             </div>
             <div className="space-y-2">
