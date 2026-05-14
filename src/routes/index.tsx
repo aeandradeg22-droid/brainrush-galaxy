@@ -238,10 +238,10 @@ function Landing() {
           <div className="absolute inset-0 gradient-primary opacity-10" />
           <div className="relative">
             <h2 className="text-4xl lg:text-5xl font-bold tracking-tight">
-              Your <span className="text-gradient">first level</span> is waiting.
+              Your spot on the <span className="text-gradient">Volta ladder</span> is waiting.
             </h2>
             <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
-              Free forever. No credit card. Just your brain and a streak counter.
+              200 students. One ranking. Weekly resets. Find out where you really stand.
             </p>
             <Link
               to="/dashboard"
@@ -256,7 +256,7 @@ function Landing() {
       <footer className="relative z-10 px-6 lg:px-10 py-10 border-t border-border">
         <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-4">
           <Logo size="sm" />
-          <div className="text-xs text-muted-foreground">© 2025 NUMERIX. Built for curious minds.</div>
+          <div className="text-xs text-muted-foreground">© 2025 NUMERIX · Built for Alessandro Volta students.</div>
         </div>
       </footer>
     </div>
