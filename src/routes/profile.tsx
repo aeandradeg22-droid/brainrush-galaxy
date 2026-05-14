@@ -30,20 +30,20 @@ function Profile() {
                 {user.avatar}
               </div>
               <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full gradient-fire text-white text-xs font-bold glow animate-pulse-glow">
-                Lv {user.level}
+                Lv {level}
               </div>
             </div>
             <div className="flex-1">
               <div className="flex flex-wrap items-center gap-3">
                 <h1 className="text-3xl font-bold tracking-tight">{user.name}</h1>
-                <span className="px-2 py-0.5 rounded-md gradient-neon text-neon-foreground text-xs font-bold">{user.rank}</span>
+                <span className="px-2 py-0.5 rounded-md gradient-neon text-neon-foreground text-xs font-bold">{rank}</span>
               </div>
               <div className="text-sm text-muted-foreground">{user.username} · joined {user.joined}</div>
               <div className="mt-3 max-w-md">
                 <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
-                  <span>Lvl {user.level}</span>
-                  <span>{user.xp.toLocaleString()} / {user.xpToNext.toLocaleString()} XP</span>
-                  <span>Lvl {user.level + 1}</span>
+                  <span>Lvl {level}</span>
+                  <span>{fmt(user.xp)} / {fmt(progress.next)} XP</span>
+                  <span>Lvl {level + 1}</span>
                 </div>
                 <ProgressBar value={xpPct} />
               </div>
