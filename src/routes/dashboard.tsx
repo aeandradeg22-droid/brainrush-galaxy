@@ -1,11 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppShell } from "@/components/AppShell";
 import { ProgressBar } from "@/components/ProgressBar";
-import { user, subjects, missions, xpHistory, challenges } from "@/lib/mock-data";
+import { subjects, missions, xpHistory, challenges } from "@/lib/mock-data";
 import {
   AreaChart, Area, XAxis, YAxis, ResponsiveContainer, Tooltip, CartesianGrid,
 } from "recharts";
 import { Flame, Trophy, Coins, Sparkles, ArrowRight, Target } from "lucide-react";
+import { useUser } from "@/lib/user-store";
+import { fmt } from "@/lib/level-system";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({ meta: [{ title: "Dashboard — NUMERIX" }] }),
@@ -13,7 +15,8 @@ export const Route = createFileRoute("/dashboard")({
 });
 
 function Dashboard() {
-  const xpPct = (user.xp / user.xpToNext) * 100;
+  const { state: user, level, rank, voltaRank, progress } = useUser();
+  const xpPct = progress.pct;
   return (
     <AppShell>
       <div className="p-6 lg:p-10 space-y-6 max-w-7xl">
