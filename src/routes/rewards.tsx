@@ -1,10 +1,12 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
+import { isAuthed } from "@/lib/auth";
 import { AppShell } from "@/components/AppShell";
 import { rewards, achievements, user } from "@/lib/mock-data";
 import { Coins, Lock } from "lucide-react";
 
 export const Route = createFileRoute("/rewards")({
   head: () => ({ meta: [{ title: "Rewards — NUMERIX" }] }),
+  beforeLoad: () => { if (!isAuthed()) throw redirect({ to: "/login" }); },
   component: Rewards,
 });
 

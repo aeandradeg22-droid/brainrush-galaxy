@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
+import { isAuthed } from "@/lib/auth";
 import { AppShell } from "@/components/AppShell";
 import { aiMessages } from "@/lib/mock-data";
 import { useState, useRef, useEffect } from "react";
@@ -6,6 +7,7 @@ import { Sparkles, Send, Lightbulb, BookOpen, Brain } from "lucide-react";
 
 export const Route = createFileRoute("/ai-tutor")({
   head: () => ({ meta: [{ title: "Nova AI — NUMERIX" }] }),
+  beforeLoad: () => { if (!isAuthed()) throw redirect({ to: "/login" }); },
   component: AITutor,
 });
 
