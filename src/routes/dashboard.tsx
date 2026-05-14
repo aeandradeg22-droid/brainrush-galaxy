@@ -1,11 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppShell } from "@/components/AppShell";
 import { ProgressBar } from "@/components/ProgressBar";
-import { user, subjects, missions, xpHistory, challenges } from "@/lib/mock-data";
+import { subjects, missions, xpHistory, challenges } from "@/lib/mock-data";
 import {
   AreaChart, Area, XAxis, YAxis, ResponsiveContainer, Tooltip, CartesianGrid,
 } from "recharts";
 import { Flame, Trophy, Coins, Sparkles, ArrowRight, Target } from "lucide-react";
+import { useUser } from "@/lib/user-store";
+import { fmt } from "@/lib/level-system";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({ meta: [{ title: "Dashboard — NUMERIX" }] }),
@@ -13,7 +15,8 @@ export const Route = createFileRoute("/dashboard")({
 });
 
 function Dashboard() {
-  const xpPct = (user.xp / user.xpToNext) * 100;
+  const { state: user, level, rank, voltaRank, progress } = useUser();
+  const xpPct = progress.pct;
   return (
     <AppShell>
       <div className="p-6 lg:p-10 space-y-6 max-w-7xl">
@@ -22,12 +25,12 @@ function Dashboard() {
           <div>
             <div className="text-sm text-muted-foreground">Welcome back to NUMERIX,</div>
             <h1 className="text-3xl lg:text-4xl font-bold tracking-tight">{user.name} ⚡</h1>
-            <div className="mt-1 text-xs text-muted-foreground">Volta Rank #{user.globalRank} / {user.totalStudents} · weekly reset in 6h 24m</div>
+            <div className="mt-1 text-xs text-muted-foreground">Volta Rank #{voltaRank} / {user.totalStudents} · weekly reset in 6h 24m</div>
           </div>
           <div className="flex flex-wrap gap-2">
             <Pill icon={<Flame size={14} className="text-orange-400" />} label={`${user.streak}-day streak`} />
-            <Pill icon={<Trophy size={14} className="text-warning" />} label={user.rank} />
-            <Pill icon={<Coins size={14} className="text-yellow-400" />} label={`${user.coins.toLocaleString()} coins`} />
+            <Pill icon={<Trophy size={14} className="text-warning" />} label={rank} />
+            <Pill icon={<Coins size={14} className="text-yellow-400" />} label={`${fmt(user.coins)} coins`} />
           </div>
         </div>
 
@@ -39,8 +42,8 @@ function Dashboard() {
               <div>
                 <div className="text-xs text-muted-foreground">Current Level</div>
                 <div className="mt-1 flex items-baseline gap-3">
-                  <span className="text-5xl font-bold text-gradient">{user.level}</span>
-                  <span className="text-sm text-muted-foreground">{user.xp.toLocaleString()} / {user.xpToNext.toLocaleString()} XP</span>
+                  <span className="text-5xl font-bold text-gradient">{level}</span>
+                  <span className="text-sm text-muted-foreground">{fmt(user.xp)} / {fmt(progress.next)} XP</span>
                 </div>
               </div>
               <Link to="/challenges" className="px-4 py-2 rounded-lg gradient-primary text-primary-foreground text-sm font-semibold glow hover:glow-strong transition">
@@ -48,7 +51,7 @@ function Dashboard() {
               </Link>
             </div>
             <div className="mt-6"><ProgressBar value={xpPct} /></div>
-            <div className="mt-2 text-xs text-muted-foreground">{(user.xpToNext - user.xp).toLocaleString()} XP to Level {user.level + 1}</div>
+            <div className="mt-2 text-xs text-muted-foreground">{fmt(progress.remaining)} XP to Level {level + 1} · Progressing toward {rank}</div>
           </div>
 
           <Ring percent={xpPct} label="Daily Goal" sub="380 / 500 XP" />

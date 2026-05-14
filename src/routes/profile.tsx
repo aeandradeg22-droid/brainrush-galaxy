@@ -1,8 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/AppShell";
 import { ProgressBar } from "@/components/ProgressBar";
-import { user, achievements, xpHistory, subjects } from "@/lib/mock-data";
+import { achievements, subjects } from "@/lib/mock-data";
 import { Edit3, Trophy, Flame, Target, Calendar } from "lucide-react";
+import { useUser } from "@/lib/user-store";
+import { fmt } from "@/lib/level-system";
 
 export const Route = createFileRoute("/profile")({
   head: () => ({ meta: [{ title: "Profile — NUMERIX" }] }),
@@ -10,8 +12,9 @@ export const Route = createFileRoute("/profile")({
 });
 
 function Profile() {
-  const xpPct = (user.xp / user.xpToNext) * 100;
-  const recent = xpHistory.slice().reverse();
+  const { state: user, level, rank, voltaRank, progress, accuracy } = useUser();
+  const xpPct = progress.pct;
+  const recent = user.recentActivity.slice(0, 7);
 
   return (
     <AppShell>
@@ -27,20 +30,20 @@ function Profile() {
                 {user.avatar}
               </div>
               <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full gradient-fire text-white text-xs font-bold glow animate-pulse-glow">
-                Lv {user.level}
+                Lv {level}
               </div>
             </div>
             <div className="flex-1">
               <div className="flex flex-wrap items-center gap-3">
                 <h1 className="text-3xl font-bold tracking-tight">{user.name}</h1>
-                <span className="px-2 py-0.5 rounded-md gradient-neon text-neon-foreground text-xs font-bold">{user.rank}</span>
+                <span className="px-2 py-0.5 rounded-md gradient-neon text-neon-foreground text-xs font-bold">{rank}</span>
               </div>
               <div className="text-sm text-muted-foreground">{user.username} · joined {user.joined}</div>
               <div className="mt-3 max-w-md">
                 <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
-                  <span>Lvl {user.level}</span>
-                  <span>{user.xp.toLocaleString()} / {user.xpToNext.toLocaleString()} XP</span>
-                  <span>Lvl {user.level + 1}</span>
+                  <span>Lvl {level}</span>
+                  <span>{fmt(user.xp)} / {fmt(progress.next)} XP</span>
+                  <span>Lvl {level + 1}</span>
                 </div>
                 <ProgressBar value={xpPct} />
               </div>
@@ -53,9 +56,9 @@ function Profile() {
 
         {/* Stat strip */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <Stat icon={<Trophy className="text-warning" size={18} />} label="Volta rank" value={`#${user.globalRank} / ${user.totalStudents}`} />
+          <Stat icon={<Trophy className="text-warning" size={18} />} label="Volta rank" value={`#${voltaRank} / ${user.totalStudents}`} />
           <Stat icon={<Flame className="text-orange-400" size={18} />} label="Streak" value={`${user.streak} days`} />
-          <Stat icon={<Target className="text-success" size={18} />} label="Accuracy" value="83%" />
+          <Stat icon={<Target className="text-success" size={18} />} label="Accuracy" value={`${accuracy}%`} />
           <Stat icon={<Calendar className="text-primary" size={18} />} label="Favorite" value={user.favoriteSubject} />
         </div>
 
@@ -95,13 +98,16 @@ function Profile() {
           <div className="glass rounded-2xl p-6">
             <div className="font-semibold mb-4">Recent activity</div>
             <div className="space-y-3">
+              {recent.length === 0 && (
+                <div className="text-xs text-muted-foreground">No recent activity yet — complete a mission or practice topic to start earning XP.</div>
+              )}
               {recent.map((r) => (
-                <div key={r.day} className="flex items-center justify-between text-sm">
-                  <div className="flex items-center gap-3">
-                    <div className="h-8 w-8 rounded-lg glass grid place-items-center text-xs font-bold">{r.day}</div>
-                    <span className="text-muted-foreground">Earned XP</span>
+                <div key={r.id} className="flex items-center justify-between text-sm">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="h-8 w-8 rounded-lg glass grid place-items-center text-xs font-bold uppercase">{r.type[0]}</div>
+                    <span className="text-muted-foreground truncate">{r.label}</span>
                   </div>
-                  <span className="font-bold text-gradient">+{r.xp}</span>
+                  <span className="font-bold text-gradient shrink-0 ml-2">+{r.xp}</span>
                 </div>
               ))}
             </div>

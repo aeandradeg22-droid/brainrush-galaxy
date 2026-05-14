@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/AppShell";
-import { rewards, achievements, user } from "@/lib/mock-data";
+import { rewards, achievements } from "@/lib/mock-data";
+import { useUser } from "@/lib/user-store";
+import { fmt } from "@/lib/level-system";
 import { Coins, Lock } from "lucide-react";
 
 export const Route = createFileRoute("/rewards")({
@@ -17,6 +19,7 @@ const rarityStyle: Record<string, string> = {
 };
 
 function Rewards() {
+  const { state: user, spendCoins } = useUser();
   return (
     <AppShell>
       <div className="p-6 lg:p-10 space-y-8 max-w-7xl">
@@ -27,7 +30,7 @@ function Rewards() {
           </div>
           <div className="glass-strong rounded-xl px-5 py-3 flex items-center gap-2 glow">
             <Coins className="text-yellow-400" size={20} />
-            <span className="text-2xl font-bold text-gradient">{user.coins.toLocaleString()}</span>
+            <span className="text-2xl font-bold text-gradient">{fmt(user.coins)}</span>
             <span className="text-xs text-muted-foreground">coins</span>
           </div>
         </div>
@@ -49,10 +52,11 @@ function Rewards() {
                   <div className="mt-5 flex items-center justify-between">
                     <div className="flex items-center gap-1.5">
                       <Coins className="text-yellow-400" size={14} />
-                      <span className="font-bold">{r.cost.toLocaleString()}</span>
+                      <span className="font-bold">{fmt(r.cost)}</span>
                     </div>
                     <button
                       disabled={user.coins < r.cost}
+                      onClick={() => user.coins >= r.cost && spendCoins(r.cost)}
                       className="px-4 py-1.5 rounded-lg gradient-primary text-primary-foreground text-xs font-bold glow hover:glow-strong transition disabled:opacity-40 disabled:cursor-not-allowed"
                     >
                       Claim

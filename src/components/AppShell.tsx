@@ -12,7 +12,7 @@ import {
   Home,
 } from "lucide-react";
 import { Logo } from "./Logo";
-import { user } from "@/lib/mock-data";
+import { useUser } from "@/lib/user-store";
 
 const nav = [
   { to: "/", label: "Home", icon: Home },
@@ -29,6 +29,7 @@ const nav = [
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const path = useRouterState({ select: (s) => s.location.pathname });
+  const { state: user, level, rank } = useUser();
 
   return (
     <div className="min-h-screen w-full flex">
@@ -69,7 +70,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </div>
             <div className="min-w-0">
               <div className="text-sm font-semibold truncate">{user.name}</div>
-              <div className="text-xs text-muted-foreground">Lvl {user.level} · {user.rank}</div>
+              <div className="text-xs text-muted-foreground">Lvl {level} · {rank}</div>
             </div>
           </Link>
         </div>
@@ -80,7 +81,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <Logo size="sm" />
           <div className="flex items-center gap-2 text-xs">
             <span className="px-2 py-1 rounded-md gradient-primary text-primary-foreground font-bold">
-              Lvl {user.level}
+              Lvl {level}
             </span>
             <span className="px-2 py-1 rounded-md glass">🔥 {user.streak}</span>
           </div>

@@ -4,6 +4,8 @@ import { challenges, bossBattles, subjects, bossBattleQuizzes } from "@/lib/mock
 import { useState } from "react";
 import { Clock, Users, Zap, Swords, Flame, Crown } from "lucide-react";
 import { QuizInterface } from "@/components/QuizInterface";
+import { PracticeMode } from "@/components/PracticeMode";
+import { useUser } from "@/lib/user-store";
 
 export const Route = createFileRoute("/challenges")({
   head: () => ({ meta: [{ title: "Challenges — NUMERIX" }] }),
@@ -11,8 +13,8 @@ export const Route = createFileRoute("/challenges")({
 });
 
 const modes = [
-  { id: "practice", name: "Practice Mode", desc: "No pressure. Build skill.", color: "from-emerald-500 to-cyan-500", icon: Zap },
-  { id: "ranked", name: "Ranked Mode", desc: "Climb the global ladder.", color: "from-blue-500 to-purple-600", icon: Crown },
+  { id: "practice", name: "Practice Mode", desc: "Theory, examples, interactive Qs.", color: "from-emerald-500 to-cyan-500", icon: Zap },
+  { id: "ranked", name: "Ranked Mode", desc: "Climb the Volta ladder.", color: "from-blue-500 to-purple-600", icon: Crown },
   { id: "boss", name: "Boss Battles", desc: "Epic multi-round duels.", color: "from-orange-500 to-rose-600", icon: Swords },
   { id: "timed", name: "Timed Challenges", desc: "Beat the clock for big XP.", color: "from-purple-500 to-pink-500", icon: Clock },
 ];
@@ -24,11 +26,27 @@ function diffColor(d: string) {
 function Challenges() {
   const [filter, setFilter] = useState<string>("All");
   const [activeBoss, setActiveBoss] = useState<string | null>(null);
+  const [practiceOpen, setPracticeOpen] = useState(false);
+  const [activeChallenge, setActiveChallenge] = useState<number | null>(null);
+  const { defeatBoss, addXp } = useUser();
   const cats = ["All", ...subjects.map((s) => s.name)];
   const list = filter === "All" ? challenges : challenges.filter((c) => c.subject === filter);
 
   function handleBossComplete(score: number, xp: number) {
-    console.log(`Boss battle completed: ${score} correct, ${xp} XP earned`);
+    if (!activeBoss) return;
+    const boss = bossBattles.find((b) => b.id === activeBoss);
+    const total = bossBattleQuizzes[activeBoss]?.questions.length ?? 0;
+    defeatBoss(activeBoss, xp, boss?.name ?? "Boss", score, total);
+  }
+
+  function handleChallengeComplete(score: number, xp: number) {
+    if (activeChallenge == null) return;
+    const c = challenges.find((x) => x.id === activeChallenge);
+    addXp({ xp, label: `Challenge: ${c?.title ?? "Challenge"}`, kind: "challenge", correct: score, total: 5 });
+  }
+
+  function handleModeClick(id: string) {
+    if (id === "practice") setPracticeOpen(true);
   }
 
   return (
@@ -44,9 +62,10 @@ function Challenges() {
           {modes.map((m) => {
             const Icon = m.icon;
             return (
-              <div
+              <button
                 key={m.id}
-                className="glass-strong rounded-2xl p-6 hover:glow-strong transition-all hover:-translate-y-1 cursor-pointer relative overflow-hidden group"
+                onClick={() => handleModeClick(m.id)}
+                className="text-left glass-strong rounded-2xl p-6 hover:glow-strong transition-all hover:-translate-y-1 cursor-pointer relative overflow-hidden group"
               >
                 <div className={`absolute -right-8 -top-8 h-32 w-32 rounded-full bg-gradient-to-br ${m.color} opacity-20 blur-2xl group-hover:opacity-40 transition`} />
                 <div className={`relative h-12 w-12 rounded-xl bg-gradient-to-br ${m.color} grid place-items-center mb-4`}>
@@ -54,7 +73,7 @@ function Challenges() {
                 </div>
                 <div className="font-semibold text-lg">{m.name}</div>
                 <p className="text-sm text-muted-foreground mt-1">{m.desc}</p>
-              </div>
+              </button>
             );
           })}
         </div>
@@ -146,7 +165,7 @@ function Challenges() {
                     <div className="text-muted-foreground text-[10px] mt-0.5">Completed</div>
                   </div>
                 </div>
-                <button className="mt-4 w-full py-2 rounded-lg gradient-primary text-primary-foreground text-sm font-semibold glow hover:glow-strong transition">
+                <button onClick={() => setActiveChallenge(c.id)} className="mt-4 w-full py-2 rounded-lg gradient-primary text-primary-foreground text-sm font-semibold glow hover:glow-strong transition">
                   Start
                 </button>
               </div>
@@ -166,6 +185,31 @@ function Challenges() {
           onExit={() => setActiveBoss(null)}
         />
       )}
+
+      {activeChallenge != null && (() => {
+        const c = challenges.find((x) => x.id === activeChallenge);
+        if (!c) return null;
+        // Reuse a quick generated quiz from the challenge metadata.
+        const qs = [{
+          id: 1,
+          question: `${c.title} — ready to attempt this ${c.subject} challenge?`,
+          options: ["Yes, give me the question", "Skip", "Maybe later", "Not sure"],
+          correct: 0,
+          explanation: `You earned XP for engaging with ${c.title}. Practice Mode has full theory + step-by-step examples on this topic.`,
+        }];
+        return (
+          <QuizInterface
+            title={c.title}
+            topic={c.subject}
+            questions={qs}
+            reward={c.xp}
+            onComplete={handleChallengeComplete}
+            onExit={() => setActiveChallenge(null)}
+          />
+        );
+      })()}
+
+      <PracticeMode open={practiceOpen} onClose={() => setPracticeOpen(false)} />
     </AppShell>
   );
 }
