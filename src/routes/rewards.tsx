@@ -19,6 +19,7 @@ const rarityStyle: Record<string, string> = {
 };
 
 function Rewards() {
+  const { state: user, spendCoins } = useUser();
   return (
     <AppShell>
       <div className="p-6 lg:p-10 space-y-8 max-w-7xl">
