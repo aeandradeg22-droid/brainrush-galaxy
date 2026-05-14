@@ -109,10 +109,10 @@ function Profile() {
             <div className="mt-6 font-semibold mb-3">Rank history</div>
             <div className="space-y-2 text-sm">
               {[
-                { date: "Now", rank: "Diamond III", color: "text-primary" },
-                { date: "2w ago", rank: "Diamond IV", color: "text-muted-foreground" },
-                { date: "1mo ago", rank: "Platinum I", color: "text-muted-foreground" },
-                { date: "2mo ago", rank: "Platinum III", color: "text-muted-foreground" },
+                { date: "Now", rank: "Elite Solver", color: "text-primary" },
+                { date: "2w ago", rank: "Academic Warrior", color: "text-muted-foreground" },
+                { date: "1mo ago", rank: "Challenger", color: "text-muted-foreground" },
+                { date: "2mo ago", rank: "Rookie", color: "text-muted-foreground" },
               ].map((r) => (
                 <div key={r.date} className="flex items-center justify-between">
                   <span className="text-xs text-muted-foreground">{r.date}</span>
