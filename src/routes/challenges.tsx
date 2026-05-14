@@ -62,9 +62,10 @@ function Challenges() {
           {modes.map((m) => {
             const Icon = m.icon;
             return (
-              <div
+              <button
                 key={m.id}
-                className="glass-strong rounded-2xl p-6 hover:glow-strong transition-all hover:-translate-y-1 cursor-pointer relative overflow-hidden group"
+                onClick={() => handleModeClick(m.id)}
+                className="text-left glass-strong rounded-2xl p-6 hover:glow-strong transition-all hover:-translate-y-1 cursor-pointer relative overflow-hidden group"
               >
                 <div className={`absolute -right-8 -top-8 h-32 w-32 rounded-full bg-gradient-to-br ${m.color} opacity-20 blur-2xl group-hover:opacity-40 transition`} />
                 <div className={`relative h-12 w-12 rounded-xl bg-gradient-to-br ${m.color} grid place-items-center mb-4`}>
