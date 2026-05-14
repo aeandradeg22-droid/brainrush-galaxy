@@ -56,9 +56,9 @@ function Profile() {
 
         {/* Stat strip */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <Stat icon={<Trophy className="text-warning" size={18} />} label="Volta rank" value={`#${user.globalRank} / ${user.totalStudents}`} />
+          <Stat icon={<Trophy className="text-warning" size={18} />} label="Volta rank" value={`#${voltaRank} / ${user.totalStudents}`} />
           <Stat icon={<Flame className="text-orange-400" size={18} />} label="Streak" value={`${user.streak} days`} />
-          <Stat icon={<Target className="text-success" size={18} />} label="Accuracy" value="83%" />
+          <Stat icon={<Target className="text-success" size={18} />} label="Accuracy" value={`${accuracy}%`} />
           <Stat icon={<Calendar className="text-primary" size={18} />} label="Favorite" value={user.favoriteSubject} />
         </div>
 
