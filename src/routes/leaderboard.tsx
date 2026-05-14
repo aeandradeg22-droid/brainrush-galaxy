@@ -1,8 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/AppShell";
-import { leaderboard, user } from "@/lib/mock-data";
-import { useState } from "react";
-import { ArrowUp, ArrowDown, Minus, Trophy, Medal } from "lucide-react";
+import { leaderboard } from "@/lib/mock-data";
+import { useState, useMemo } from "react";
+import { ArrowUp, ArrowDown, Minus, Trophy, Medal, TrendingUp } from "lucide-react";
+import { useUser } from "@/lib/user-store";
+import { fmt } from "@/lib/level-system";
 
 export const Route = createFileRoute("/leaderboard")({
   head: () => ({ meta: [{ title: "Leaderboard — NUMERIX" }] }),
