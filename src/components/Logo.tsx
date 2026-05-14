@@ -16,7 +16,7 @@ export function Logo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
         <Zap className="text-primary-foreground" size={s.icon} strokeWidth={2.5} fill="currentColor" />
       </div>
       <span className={`${s.text} font-bold tracking-tight`}>
-        Brain<span className="text-gradient">Rush</span>
+        NUME<span className="text-gradient">RIX</span>
       </span>
     </Link>
   );
