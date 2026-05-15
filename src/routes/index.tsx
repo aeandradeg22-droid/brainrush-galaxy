@@ -198,7 +198,7 @@ function Landing() {
                     <div className="text-sm font-semibold truncate">{p.name}</div>
                     <div className="text-xs text-muted-foreground">Level {p.level}</div>
                   </div>
-                  <div className="text-sm font-bold text-gradient">{p.xp.toLocaleString()} XP</div>
+                  <div className="text-sm font-bold text-gradient">{fmt(p.xp)} XP</div>
                 </div>
               ))}
             </div>
