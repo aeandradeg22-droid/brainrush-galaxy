@@ -444,3 +444,164 @@ export const missionQuizzes: Record<number, MissionQuiz> = {
     ],
   },
 };
+
+// ============================================================
+// Challenge / Timed / Ranked question pools
+// ============================================================
+
+// Per-subject question pools used to size each challenge by difficulty.
+const algebraPool: QuizQuestion[] = [
+  { id: 1, question: "Solve: x + 7 = 12", options: ["3", "5", "7", "12"], correct: 1, explanation: "x = 12 − 7 = 5." },
+  { id: 2, question: "Factor: x² + 7x + 12", options: ["(x+3)(x+4)", "(x+2)(x+6)", "(x+1)(x+12)", "(x−3)(x−4)"], correct: 0, explanation: "3 + 4 = 7, 3·4 = 12." },
+  { id: 3, question: "Solve: 2x − 4 = 10", options: ["5", "6", "7", "8"], correct: 2, explanation: "2x = 14 → x = 7." },
+  { id: 4, question: "Roots of x² − 4 = 0:", options: ["±1", "±2", "±4", "0"], correct: 1, explanation: "x = ±2." },
+  { id: 5, question: "Expand: (x+3)²", options: ["x²+9", "x²+6x+9", "x²+3x+9", "x²+6x+3"], correct: 1, explanation: "(a+b)² = a² + 2ab + b²." },
+  { id: 6, question: "Solve: 3x = 21", options: ["3", "5", "7", "21"], correct: 2, explanation: "x = 7." },
+  { id: 7, question: "If f(x)=x²+1, f(3)=", options: ["7", "9", "10", "12"], correct: 2, explanation: "9 + 1 = 10." },
+  { id: 8, question: "Solve: x/4 = 5", options: ["1", "9", "20", "25"], correct: 2, explanation: "x = 20." },
+  { id: 9, question: "(2x)·(3x)=", options: ["5x²", "6x", "6x²", "5x"], correct: 2, explanation: "Coefficients multiply, exponents add." },
+  { id: 10, question: "Simplify: 2(x+3) − x", options: ["x+3", "x+6", "3x+6", "x−6"], correct: 1, explanation: "2x + 6 − x = x + 6." },
+];
+
+const calculusPool: QuizQuestion[] = [
+  { id: 1, question: "lim x→2 (x²−4)/(x−2) =", options: ["0", "2", "4", "undef"], correct: 2, explanation: "Factor: (x−2)(x+2)/(x−2) → x+2 → 4." },
+  { id: 2, question: "d/dx(x³) =", options: ["x²", "2x²", "3x²", "x³/3"], correct: 2, explanation: "Power rule." },
+  { id: 3, question: "d/dx(sin x) =", options: ["cos x", "−cos x", "−sin x", "tan x"], correct: 0, explanation: "Standard." },
+  { id: 4, question: "∫ 2x dx =", options: ["x²", "x² + C", "2 + C", "x²/2 + C"], correct: 1, explanation: "Power rule for integrals." },
+  { id: 5, question: "lim x→0 sin x / x =", options: ["0", "1", "∞", "x"], correct: 1, explanation: "Famous limit." },
+  { id: 6, question: "d/dx(eˣ) =", options: ["eˣ", "x·eˣ⁻¹", "ln x", "1/x"], correct: 0, explanation: "Self-derivative." },
+  { id: 7, question: "Continuity at a requires:", options: ["f(a) defined", "lim exists", "lim = f(a)", "All of the above"], correct: 3, explanation: "All three conditions." },
+  { id: 8, question: "d/dx(ln x) =", options: ["1/x", "x", "ln x", "eˣ"], correct: 0, explanation: "Derivative of natural log." },
+  { id: 9, question: "lim x→∞ 1/x =", options: ["0", "1", "∞", "−∞"], correct: 0, explanation: "Tends to 0." },
+  { id: 10, question: "∫ 1 dx =", options: ["0", "x", "x + C", "1 + C"], correct: 2, explanation: "Antiderivative of 1." },
+];
+
+const geometryPool: QuizQuestion[] = [
+  { id: 1, question: "Triangle angles sum to:", options: ["90°", "180°", "270°", "360°"], correct: 1, explanation: "Always 180°." },
+  { id: 2, question: "Pythagorean triple:", options: ["(2,3,4)", "(3,4,5)", "(5,6,7)", "(6,7,8)"], correct: 1, explanation: "3² + 4² = 5²." },
+  { id: 3, question: "Equilateral triangle each angle =", options: ["45°", "60°", "75°", "90°"], correct: 1, explanation: "180/3 = 60°." },
+  { id: 4, question: "Area of triangle base 6, height 4:", options: ["10", "12", "24", "48"], correct: 1, explanation: "½·6·4 = 12." },
+  { id: 5, question: "Hypotenuse for legs 6 and 8:", options: ["10", "12", "14", "100"], correct: 0, explanation: "√(36+64) = 10." },
+];
+
+const kinematicsPool: QuizQuestion[] = [
+  { id: 1, question: "Vector 3→ + 4↑, magnitude:", options: ["5", "7", "12", "25"], correct: 0, explanation: "√(9+16) = 5." },
+  { id: 2, question: "10 m/s east + 0 m/s = velocity:", options: ["10 east", "0", "−10", "20"], correct: 0, explanation: "Vector addition." },
+  { id: 3, question: "Component of 10 N at 30° (cos):", options: ["5 N", "8.66 N", "10 N", "20 N"], correct: 1, explanation: "10·cos30 ≈ 8.66." },
+  { id: 4, question: "Projectile range increases with:", options: ["Sin 2θ", "Cos θ", "Tan θ", "Mass"], correct: 0, explanation: "R = v²sin2θ/g." },
+  { id: 5, question: "Displacement from 0→5 then 5→2:", options: ["7", "5", "2", "3"], correct: 2, explanation: "Final − initial = 2 − 0 = 2." },
+  { id: 6, question: "Average velocity if total disp 30 m in 5 s:", options: ["3", "5", "6", "10"], correct: 2, explanation: "30/5 = 6 m/s." },
+  { id: 7, question: "Uniform circular motion has:", options: ["Constant velocity", "Constant speed", "No acceleration", "Variable mass"], correct: 1, explanation: "Speed constant, direction changes." },
+  { id: 8, question: "Two perpendicular vectors 6, 8. Resultant:", options: ["10", "14", "12", "100"], correct: 0, explanation: "√(36+64) = 10." },
+  { id: 9, question: "Free-fall acceleration on Earth ≈", options: ["1.6", "5", "9.8", "20"], correct: 2, explanation: "g ≈ 9.8 m/s²." },
+  { id: 10, question: "Velocity is a:", options: ["Scalar", "Vector", "Constant", "Force"], correct: 1, explanation: "Has magnitude and direction." },
+];
+
+const dynamicsPool: QuizQuestion[] = [
+  { id: 1, question: "F = ma. If m = 5, a = 2 → F =", options: ["3", "7", "10", "25"], correct: 2, explanation: "10 N." },
+  { id: 2, question: "Newton's 3rd law:", options: ["F = ma", "Equal opposite reaction", "Inertia", "Momentum"], correct: 1, explanation: "Action–reaction." },
+  { id: 3, question: "Friction depends on:", options: ["Area", "Normal force", "Time", "Color"], correct: 1, explanation: "f = μN." },
+  { id: 4, question: "An object at rest stays at rest by:", options: ["Newton 1st", "Newton 2nd", "Newton 3rd", "Energy law"], correct: 0, explanation: "Inertia." },
+  { id: 5, question: "Weight on Earth of 10 kg:", options: ["10 N", "20 N", "98 N", "100 N"], correct: 2, explanation: "10·9.8 = 98 N." },
+  { id: 6, question: "Net force 0 ⇒ velocity:", options: ["Increases", "Decreases", "Constant", "Zero only"], correct: 2, explanation: "Constant velocity." },
+];
+
+const energyPool: QuizQuestion[] = [
+  { id: 1, question: "KE = ½mv². m=2, v=3 →", options: ["3", "6", "9", "18"], correct: 2, explanation: "½·2·9 = 9 J." },
+  { id: 2, question: "Work = F·d. F=10, d=5 →", options: ["2", "15", "50", "100"], correct: 2, explanation: "50 J." },
+  { id: 3, question: "PE = mgh, m=2, h=10, g=10 →", options: ["20", "100", "200", "2000"], correct: 2, explanation: "200 J." },
+  { id: 4, question: "Energy is conserved when:", options: ["Friction acts", "System is isolated", "Mass changes", "Always false"], correct: 1, explanation: "Closed isolated system." },
+  { id: 5, question: "Power units:", options: ["J", "W", "N", "Pa"], correct: 1, explanation: "Watt = J/s." },
+  { id: 6, question: "If KE doubles when v doubles, that's:", options: ["True", "False", "Sometimes", "Depends on mass"], correct: 1, explanation: "KE quadruples (v²)." },
+];
+
+const subjectPool: Record<string, QuizQuestion[]> = {
+  Algebra: algebraPool,
+  Calculus: calculusPool,
+  Geometry: geometryPool,
+  Kinematics: kinematicsPool,
+  Dynamics: dynamicsPool,
+  Energy: energyPool,
+};
+
+export function questionsForChallenge(subject: string, difficulty: string): QuizQuestion[] {
+  const counts: Record<string, number> = { Easy: 3, Medium: 6, Hard: 10, Boss: 15 };
+  const n = counts[difficulty] ?? 5;
+  const pool = subjectPool[subject] ?? algebraPool;
+  // Repeat-pad with re-ids if pool too small.
+  const out: QuizQuestion[] = [];
+  for (let i = 0; i < n; i++) out.push({ ...pool[i % pool.length], id: i + 1 });
+  return out;
+}
+
+// Timed Challenges — 5 quick mixed questions.
+export const timedChallenge: MissionQuiz = {
+  id: 999,
+  title: "Timed Challenge",
+  topic: "Quick Math, Physics & Logic",
+  description: "Five fast questions, 15 seconds each. Speed bonuses apply.",
+  reward: 250,
+  timed: true,
+  questions: [
+    { id: 1, question: "12 × 8 = ?", options: ["86", "96", "108", "112"], correct: 1, explanation: "12·8 = 96." },
+    { id: 2, question: "Sound travels fastest in:", options: ["Air", "Water", "Steel", "Vacuum"], correct: 2, explanation: "Solids > liquids > gases." },
+    { id: 3, question: "If a = 5, t = 4 (from rest), v = ?", options: ["10", "15", "20", "25"], correct: 2, explanation: "v = at = 20 m/s." },
+    { id: 4, question: "Next number: 2, 4, 8, 16, ?", options: ["20", "24", "30", "32"], correct: 3, explanation: "Doubling sequence." },
+    { id: 5, question: "Square root of 169:", options: ["11", "12", "13", "14"], correct: 2, explanation: "13² = 169." },
+  ],
+};
+
+// Ranked Mode — opponents pulled from leaderboard, with mixed Math/Physics pool.
+export interface RankedOpponent {
+  name: string;
+  avatar: string;
+  level: number;
+  rankPoints: number;
+  difficulty: "Easy" | "Medium" | "Hard";
+  accuracyPct: number; // simulated opponent accuracy
+  speedMs: number;     // average answer speed
+}
+
+export const rankedOpponents: RankedOpponent[] = [
+  { name: "Edu", avatar: "ED", level: 47, rankPoints: 2400, difficulty: "Hard", accuracyPct: 92, speedMs: 2400 },
+  { name: "Boarlos", avatar: "BO", level: 45, rankPoints: 2280, difficulty: "Hard", accuracyPct: 88, speedMs: 2700 },
+  { name: "Tamu", avatar: "TA", level: 44, rankPoints: 2200, difficulty: "Hard", accuracyPct: 86, speedMs: 2900 },
+  { name: "It's Mat", avatar: "IM", level: 42, rankPoints: 2050, difficulty: "Hard", accuracyPct: 84, speedMs: 3000 },
+  { name: "Tomy", avatar: "TO", level: 40, rankPoints: 1900, difficulty: "Medium", accuracyPct: 80, speedMs: 3200 },
+  { name: "Gatha", avatar: "GA", level: 36, rankPoints: 1620, difficulty: "Medium", accuracyPct: 76, speedMs: 3400 },
+  { name: "Villa", avatar: "VI", level: 32, rankPoints: 1380, difficulty: "Medium", accuracyPct: 72, speedMs: 3600 },
+  { name: "Emi", avatar: "EM", level: 27, rankPoints: 1100, difficulty: "Medium", accuracyPct: 68, speedMs: 3800 },
+  { name: "Paula M", avatar: "PM", level: 26, rankPoints: 1050, difficulty: "Easy", accuracyPct: 64, speedMs: 4000 },
+  { name: "Dianita", avatar: "DI", level: 23, rankPoints: 900, difficulty: "Easy", accuracyPct: 60, speedMs: 4200 },
+];
+
+export const rankedDivisions = [
+  { name: "Bronze", min: 0, color: "from-amber-700 to-amber-900" },
+  { name: "Silver", min: 400, color: "from-slate-300 to-slate-500" },
+  { name: "Gold", min: 900, color: "from-yellow-400 to-amber-500" },
+  { name: "Platinum", min: 1500, color: "from-cyan-300 to-teal-500" },
+  { name: "Diamond", min: 2200, color: "from-sky-400 to-indigo-500" },
+  { name: "Nova Rank", min: 3000, color: "from-fuchsia-500 to-purple-600" },
+  { name: "Volta Elite", min: 4000, color: "from-rose-500 via-orange-500 to-yellow-400" },
+];
+
+export function divisionFor(points: number) {
+  let div = rankedDivisions[0];
+  for (const d of rankedDivisions) if (points >= d.min) div = d;
+  return div;
+}
+
+export const rankedMatchPool: QuizQuestion[] = [
+  { id: 1, question: "Solve: 3x = 27", options: ["6", "7", "9", "12"], correct: 2, explanation: "x = 9." },
+  { id: 2, question: "F = ma; m=4, a=3 ⇒ F =", options: ["7", "12", "15", "21"], correct: 1, explanation: "12 N." },
+  { id: 3, question: "d/dx(x²) =", options: ["x", "2", "2x", "x²"], correct: 2, explanation: "Power rule." },
+  { id: 4, question: "KE of 2 kg at 4 m/s:", options: ["8 J", "12 J", "16 J", "32 J"], correct: 2, explanation: "½·2·16 = 16 J." },
+  { id: 5, question: "(x+1)(x−1) =", options: ["x²", "x²+1", "x²−1", "x²+x−1"], correct: 2, explanation: "Difference of squares." },
+  { id: 6, question: "Free-fall g ≈", options: ["3.7", "5", "9.8", "20"], correct: 2, explanation: "Earth surface." },
+  { id: 7, question: "lim x→0 (1−cos x)/x =", options: ["0", "1", "−1", "∞"], correct: 0, explanation: "Standard limit." },
+  { id: 8, question: "Pythag: 5,12,?", options: ["13", "15", "17", "20"], correct: 0, explanation: "5²+12²=169 ⇒ 13." },
+  { id: 9, question: "Power = work/time. 100 J in 5 s:", options: ["10 W", "15 W", "20 W", "50 W"], correct: 2, explanation: "100/5 = 20 W." },
+  { id: 10, question: "Solve: x² − 16 = 0", options: ["±2", "±4", "±8", "±16"], correct: 1, explanation: "x = ±4." },
+  { id: 11, question: "Vector 3↑ + 4→ magnitude:", options: ["5", "7", "12", "25"], correct: 0, explanation: "√25." },
+  { id: 12, question: "∫ 3x² dx =", options: ["x³", "x³ + C", "6x + C", "9x³"], correct: 1, explanation: "Power rule." },
+];
