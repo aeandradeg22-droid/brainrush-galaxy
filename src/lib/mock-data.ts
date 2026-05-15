@@ -89,7 +89,7 @@ export const leaderboard = [
 export const missions = [
   { id: 1, title: "Solve 5 algebra problems", progress: 3, total: 5, xp: 150, icon: "ƒ" },
   { id: 2, title: "Complete 2 physics challenges", progress: 1, total: 2, xp: 220, icon: "⚛" },
-  { id: 3, title: "Maintain a 3-day streak", progress: 3, total: 3, xp: 300, icon: "🔥", done: true },
+  { id: 3, title: "Maintain a 3-day streak", progress: 3, total: 3, xp: 300, icon: "🔥" },
   { id: 4, title: "Beat a timed challenge", progress: 0, total: 1, xp: 180, icon: "⏱" },
   { id: 5, title: "Win 1 ranked match", progress: 0, total: 1, xp: 250, icon: "⚔" },
 ];
