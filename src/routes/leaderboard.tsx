@@ -146,7 +146,7 @@ function Podium({ player, place, height }: { player: any; place: number; height:
       </div>
       <div className="text-center">
         <div className="font-bold text-sm">{player.name}</div>
-        <div className="text-xs text-gradient font-bold">{player.xp.toLocaleString()} XP</div>
+        <div className="text-xs text-gradient font-bold">{fmt(player.xp)} XP</div>
       </div>
       <div className={`w-full ${height} rounded-t-xl glass-strong grid place-items-center font-bold text-3xl ${place === 1 ? "text-gradient" : "text-muted-foreground"}`}>
         {place}

@@ -42,11 +42,14 @@ export const challenges = [
   { id: 6, title: "Energy Conservation", subject: "Energy", difficulty: "Medium", xp: 280, time: "9 min", completion: 71 },
 ];
 
+// Number of questions per difficulty tier — applies across all challenge modes.
+export const DIFFICULTY_QUESTIONS = { Easy: 3, Medium: 6, Hard: 10, Boss: 15 } as const;
+
 export const bossBattles = [
-  { id: "newton", name: "Newton Boss Battle", subject: "Dynamics", hp: "12,000 XP", reward: "Legendary Badge", color: "from-orange-500 via-red-500 to-rose-600", icon: "🍎" },
-  { id: "einstein", name: "Einstein Challenge", subject: "Relativity", hp: "18,000 XP", reward: "Cosmic Aura", color: "from-indigo-500 via-purple-600 to-fuchsia-600", icon: "✦" },
-  { id: "calculus", name: "The Calculus Titan", subject: "Calculus", hp: "15,000 XP", reward: "Integral Crown", color: "from-emerald-500 via-teal-500 to-cyan-600", icon: "∫" },
-  { id: "quantum", name: "Quantum Rush", subject: "Modern Physics", hp: "22,000 XP", reward: "Quantum Skin", color: "from-cyan-500 via-blue-500 to-purple-600", icon: "⚛" },
+  { id: "newton", name: "Newton Boss Battle", subject: "Dynamics", hp: "12,000 XP", reward: "Legendary Badge + 600 XP", color: "from-orange-500 via-red-500 to-rose-600", icon: "🍎" },
+  { id: "einstein", name: "Einstein Challenge", subject: "Relativity", hp: "18,000 XP", reward: "Cosmic Aura + 750 XP", color: "from-indigo-500 via-purple-600 to-fuchsia-600", icon: "✦" },
+  { id: "alfonsito", name: "Alfonsito Boss Battle", subject: "Algebra & Logic", hp: "15,000 XP", reward: "Homework Recovery Pass + 700 XP", color: "from-emerald-500 via-teal-500 to-cyan-600", icon: "ƒ" },
+  { id: "daniel", name: "Daniel Challenge", subject: "Kinematics & Forces", hp: "16,000 XP", reward: "+2 participation points and 800 XP", color: "from-cyan-500 via-blue-500 to-purple-600", icon: "⚡" },
 ];
 
 export const ranks = [
@@ -86,7 +89,7 @@ export const leaderboard = [
 export const missions = [
   { id: 1, title: "Solve 5 algebra problems", progress: 3, total: 5, xp: 150, icon: "ƒ" },
   { id: 2, title: "Complete 2 physics challenges", progress: 1, total: 2, xp: 220, icon: "⚛" },
-  { id: 3, title: "Maintain a 3-day streak", progress: 3, total: 3, xp: 300, icon: "🔥", done: true },
+  { id: 3, title: "Maintain a 3-day streak", progress: 3, total: 3, xp: 300, icon: "🔥" },
   { id: 4, title: "Beat a timed challenge", progress: 0, total: 1, xp: 180, icon: "⏱" },
   { id: 5, title: "Win 1 ranked match", progress: 0, total: 1, xp: 250, icon: "⚔" },
 ];
@@ -168,176 +171,96 @@ export const bossBattleQuizzes: Record<string, BossBattleQuiz> = {
     id: "newton",
     topic: "Dynamics and Newton's Laws",
     purpose: "Strengthen your understanding of forces, motion, and acceleration while competing for an exam recovery opportunity.",
-    reward: "Opportunity to retake one low exam grade.",
+    reward: "Legendary Badge + 600 XP",
     description: "Complete this challenge to master Newton's laws and improve your force analysis skills.",
     questions: [
-      {
-        id: 1,
-        question: "A 2 kg object experiences a net force of 10 N. What is its acceleration?",
-        options: ["2 m/s²", "5 m/s²", "10 m/s²", "20 m/s²"],
-        correct: 1,
-        explanation: "Using F = ma, we get a = F/m = 10 N / 2 kg = 5 m/s². This is Newton's Second Law in action.",
-      },
-      {
-        id: 2,
-        question: "A car with mass 1000 kg accelerates at 2 m/s². What is the net force acting on it?",
-        options: ["500 N", "1000 N", "2000 N", "2500 N"],
-        correct: 2,
-        explanation: "F = ma = 1000 kg × 2 m/s² = 2000 N. This shows how mass and acceleration relate to force.",
-      },
-      {
-        id: 3,
-        question: "What is the force of friction if a 5 kg block slides on a surface with μ = 0.2 (g = 10 m/s²)?",
-        options: ["5 N", "10 N", "15 N", "25 N"],
-        correct: 1,
-        explanation: "f = μN = μmg = 0.2 × 5 × 10 = 10 N. Friction depends on the normal force and coefficient of friction.",
-      },
-      {
-        id: 4,
-        question: "An object is in equilibrium. What can we conclude about the forces acting on it?",
-        options: ["All forces are zero", "The net force is zero", "There are no forces", "Forces are balanced but not zero"],
-        correct: 1,
-        explanation: "Equilibrium means the net force is zero (ΣF = 0), but individual forces can be non-zero if they cancel out.",
-      },
-      {
-        id: 5,
-        question: "If you apply 50 N force to push a 10 kg box and it accelerates at 4 m/s², what is the friction force?",
-        options: ["10 N", "40 N", "50 N", "90 N"],
-        correct: 0,
-        explanation: "Net force = ma = 10 × 4 = 40 N. Since Applied force - Friction = 40, we get Friction = 50 - 40 = 10 N.",
-      },
+      { id: 1, question: "A 2 kg object experiences a net force of 10 N. What is its acceleration?", options: ["2 m/s²", "5 m/s²", "10 m/s²", "20 m/s²"], correct: 1, explanation: "F = ma → a = 10/2 = 5 m/s²." },
+      { id: 2, question: "A 1000 kg car accelerates at 2 m/s². Net force?", options: ["500 N", "1000 N", "2000 N", "2500 N"], correct: 2, explanation: "F = ma = 1000·2 = 2000 N." },
+      { id: 3, question: "Friction on a 5 kg block, μ = 0.2 (g = 10 m/s²)?", options: ["5 N", "10 N", "15 N", "25 N"], correct: 1, explanation: "f = μmg = 0.2·5·10 = 10 N." },
+      { id: 4, question: "An object in equilibrium implies:", options: ["All forces are zero", "Net force is zero", "No forces act", "Forces unbalanced"], correct: 1, explanation: "ΣF = 0 in equilibrium." },
+      { id: 5, question: "Push 50 N on 10 kg, a = 4 m/s². Friction force?", options: ["10 N", "40 N", "50 N", "90 N"], correct: 0, explanation: "Net = ma = 40 N, so friction = 50 − 40 = 10 N." },
+      { id: 6, question: "Newton's third law states:", options: ["F = ma", "Inertia keeps motion", "Every action has an equal opposite reaction", "Gravity is universal"], correct: 2, explanation: "Action–reaction pairs are equal in magnitude, opposite in direction." },
+      { id: 7, question: "Weight of a 12 kg box on Earth (g = 9.8 m/s²)?", options: ["1.2 N", "12 N", "117.6 N", "120 N"], correct: 2, explanation: "W = mg = 12·9.8 = 117.6 N." },
+      { id: 8, question: "An object moves at constant velocity. The net force is:", options: ["Equal to weight", "Zero", "Equal to friction", "Maximum"], correct: 1, explanation: "Constant velocity ⇒ ΣF = 0 (Newton 1)." },
+      { id: 9, question: "A 4 kg cart pulled with 20 N (frictionless). Acceleration?", options: ["2 m/s²", "4 m/s²", "5 m/s²", "10 m/s²"], correct: 2, explanation: "a = F/m = 20/4 = 5 m/s²." },
+      { id: 10, question: "Inertia depends on:", options: ["Velocity", "Mass", "Force applied", "Acceleration"], correct: 1, explanation: "Inertia is proportional to mass." },
+      { id: 11, question: "Two forces 6 N right and 4 N left act on a body. Net force?", options: ["10 N right", "2 N left", "2 N right", "0 N"], correct: 2, explanation: "6 − 4 = 2 N to the right." },
+      { id: 12, question: "Astronaut mass 70 kg on Moon (g = 1.6 m/s²). Weight?", options: ["70 N", "112 N", "686 N", "11.2 N"], correct: 1, explanation: "W = 70·1.6 = 112 N." },
+      { id: 13, question: "Tension in a rope holding a 5 kg block at rest (g = 10)?", options: ["5 N", "10 N", "50 N", "0 N"], correct: 2, explanation: "T = mg = 50 N for equilibrium." },
+      { id: 14, question: "Net force needed to stop a 1500 kg car decelerating at 5 m/s²:", options: ["300 N", "750 N", "3000 N", "7500 N"], correct: 3, explanation: "|F| = ma = 1500·5 = 7500 N." },
+      { id: 15, question: "When a horse pulls a cart, why does the cart move forward?", options: ["Cart pulls back weaker", "Action and reaction act on different bodies", "Friction pushes cart", "Newton's 1st law"], correct: 1, explanation: "The reaction acts on the horse, not the cart — net force on cart is forward." },
     ],
   },
   einstein: {
     id: "einstein",
     topic: "Relativity, Energy, and Modern Physics",
     purpose: "Improve your scientific reasoning and Physics analysis skills while competing for extra academic points.",
-    reward: "Earn 1 or 2 extra points for a low assignment grade.",
+    reward: "Cosmic Aura + 750 XP",
     description: "Test your conceptual Physics understanding and modern physics knowledge.",
     questions: [
-      {
-        id: 1,
-        question: "What does E=mc² tell us about the relationship between energy and mass?",
-        options: ["Energy and mass are the same", "Mass can be converted into enormous amounts of energy", "Light travels at different speeds", "Energy moves faster than mass"],
-        correct: 1,
-        explanation: "Einstein's mass-energy equivalence shows that a small amount of mass can be converted to massive amounts of energy, since c² is enormous.",
-      },
-      {
-        id: 2,
-        question: "The speed of light in vacuum is approximately:",
-        options: ["100,000 km/s", "300,000 km/s", "500,000 km/s", "1,000,000 km/s"],
-        correct: 1,
-        explanation: "The speed of light (c) is approximately 3 × 10⁸ m/s or 300,000 km/s. This is a universal constant.",
-      },
-      {
-        id: 3,
-        question: "What is momentum?",
-        options: ["The force acting on an object", "Mass times velocity (p = mv)", "The ability to do work", "The rate of energy transfer"],
-        correct: 1,
-        explanation: "Momentum (p) is defined as mass multiplied by velocity. It's conserved in isolated systems, a fundamental principle in physics.",
-      },
-      {
-        id: 4,
-        question: "A wave with higher frequency has:",
-        options: ["Longer wavelength", "Shorter wavelength", "Higher amplitude always", "Lower energy always"],
-        correct: 1,
-        explanation: "Frequency and wavelength are inversely related (c = fλ). Higher frequency means shorter wavelength. Energy also increases with frequency (E = hf).",
-      },
-      {
-        id: 5,
-        question: "What principle states that momentum is conserved when no external forces act?",
-        options: ["Newton's First Law", "Law of Universal Gravitation", "Conservation of Momentum", "Hooke's Law"],
-        correct: 2,
-        explanation: "The Conservation of Momentum states that in an isolated system, total momentum before = total momentum after a collision or interaction.",
-      },
+      { id: 1, question: "What does E = mc² describe?", options: ["Energy equals mass", "Mass converts to enormous energy", "Light has mass", "Energy beats mass"], correct: 1, explanation: "Mass-energy equivalence: tiny mass ⇔ huge energy because c² is huge." },
+      { id: 2, question: "Speed of light in vacuum:", options: ["100,000 km/s", "300,000 km/s", "500,000 km/s", "1,000,000 km/s"], correct: 1, explanation: "c ≈ 3 × 10⁸ m/s." },
+      { id: 3, question: "Momentum is:", options: ["Force on an object", "p = mv", "Ability to do work", "Rate of energy transfer"], correct: 1, explanation: "Momentum p = m·v." },
+      { id: 4, question: "Higher frequency wave has:", options: ["Longer λ", "Shorter λ", "More amplitude", "Less energy"], correct: 1, explanation: "c = fλ, so larger f ⇒ smaller λ." },
+      { id: 5, question: "Conservation of momentum applies when:", options: ["Friction acts", "External force is zero", "Mass changes", "Speed of light is reached"], correct: 1, explanation: "Σp is constant when no net external force acts." },
+      { id: 6, question: "Time dilation means:", options: ["Time is absolute", "Moving clocks tick slower", "Light slows down", "Mass disappears"], correct: 1, explanation: "Special relativity: clocks in motion run slower from a stationary frame." },
+      { id: 7, question: "Photon energy formula:", options: ["E = mc²", "E = ½mv²", "E = hf", "E = qV"], correct: 2, explanation: "Planck: E = h·f for a photon." },
+      { id: 8, question: "Photoelectric effect demonstrates:", options: ["Wave nature of light", "Particle nature of light", "Both", "Neither"], correct: 1, explanation: "Discrete photon energy explains the threshold frequency." },
+      { id: 9, question: "1 eV equals about:", options: ["1.6 × 10⁻¹⁹ J", "9 × 10⁹ J", "6.6 × 10⁻³⁴ J", "3 × 10⁸ J"], correct: 0, explanation: "1 eV = 1.6 × 10⁻¹⁹ J." },
+      { id: 10, question: "Frame of reference affects:", options: ["Mass only", "Measurements of time and length", "Charge", "Temperature"], correct: 1, explanation: "Relativity: time/length are observer-dependent." },
+      { id: 11, question: "Wave–particle duality applies to:", options: ["Photons only", "Electrons only", "All matter and light", "Neutrinos only"], correct: 2, explanation: "De Broglie: λ = h/p applies to all matter." },
+      { id: 12, question: "Higher temperature blackbody emits peak at:", options: ["Longer λ", "Shorter λ", "Same λ", "No light"], correct: 1, explanation: "Wien's law: λₘₐₓ ∝ 1/T." },
+      { id: 13, question: "Relativistic mass increases as:", options: ["v decreases", "v approaches c", "Time stops", "Charge grows"], correct: 1, explanation: "m = m₀/√(1 − v²/c²) → ∞ as v → c." },
+      { id: 14, question: "Heisenberg uncertainty links:", options: ["Force and time", "Position and momentum", "Energy and mass", "Charge and field"], correct: 1, explanation: "Δx·Δp ≥ ħ/2." },
+      { id: 15, question: "A photon has rest mass:", options: ["m₀ = 9.1 × 10⁻³¹ kg", "Zero", "1 amu", "Same as electron"], correct: 1, explanation: "Photons are massless; they always travel at c." },
     ],
   },
-  calculus: {
-    id: "calculus",
-    topic: "Algebra and Introductory Calculus",
-    purpose: "Master algebraic thinking and calculus fundamentals to earn a homework recovery opportunity.",
-    reward: "Unlock a Homework Recovery Pass.",
-    description: "Strengthen your algebraic reasoning and foundation for advanced mathematics.",
+  alfonsito: {
+    id: "alfonsito",
+    topic: "Algebra, Equations, Functions, Factorization, Logic",
+    purpose: "Strengthen algebraic reasoning and mathematical problem-solving skills while competing for a homework recovery opportunity.",
+    reward: "Homework Recovery Pass + 700 XP",
+    description: "Bachillerato-level algebra and logic. Progressive difficulty across 15 questions.",
     questions: [
-      {
-        id: 1,
-        question: "What is the derivative of f(x) = 3x²?",
-        options: ["3x", "6x", "6x²", "3x² + C"],
-        correct: 1,
-        explanation: "Using the power rule: d/dx(xⁿ) = n·xⁿ⁻¹, so d/dx(3x²) = 3·2·x¹ = 6x.",
-      },
-      {
-        id: 2,
-        question: "Solve for x: 2x + 5 = 13",
-        options: ["x = 4", "x = 6", "x = 3", "x = 9"],
-        correct: 0,
-        explanation: "2x + 5 = 13 → 2x = 8 → x = 4. This is basic linear algebra.",
-      },
-      {
-        id: 3,
-        question: "Factor: x² + 5x + 6",
-        options: ["(x+2)(x+3)", "(x+1)(x+6)", "(x+2)(x+2)", "(x-2)(x-3)"],
-        correct: 0,
-        explanation: "We look for two numbers that multiply to 6 and add to 5: 2 and 3. So x² + 5x + 6 = (x+2)(x+3).",
-      },
-      {
-        id: 4,
-        question: "What is the integral of f(x) = 5x?",
-        options: ["5", "5x²/2", "5x²/2 + C", "5x² + C"],
-        correct: 2,
-        explanation: "Using the power rule for integration: ∫xⁿ dx = xⁿ⁺¹/(n+1) + C, so ∫5x dx = 5x²/2 + C.",
-      },
-      {
-        id: 5,
-        question: "What is the limit of f(x) = (x² - 1)/(x - 1) as x approaches 1?",
-        options: ["0", "1", "2", "undefined"],
-        correct: 2,
-        explanation: "Factor: (x² - 1)/(x - 1) = (x+1)(x-1)/(x-1) = x+1. As x→1, the limit is 1+1 = 2.",
-      },
+      { id: 1, question: "Solve: 2x + 5 = 13", options: ["x = 3", "x = 4", "x = 5", "x = 6"], correct: 1, explanation: "2x = 8 → x = 4." },
+      { id: 2, question: "Factor: x² + 5x + 6", options: ["(x+2)(x+3)", "(x+1)(x+6)", "(x+2)²", "(x−2)(x−3)"], correct: 0, explanation: "2 + 3 = 5, 2·3 = 6." },
+      { id: 3, question: "If f(x) = 3x − 2, what is f(4)?", options: ["10", "12", "14", "8"], correct: 0, explanation: "3·4 − 2 = 10." },
+      { id: 4, question: "Simplify: (x²·x³) / x⁴", options: ["x", "x²", "x³", "1"], correct: 0, explanation: "x^(2+3−4) = x." },
+      { id: 5, question: "Solve: x² − 9 = 0", options: ["x = 3", "x = ±3", "x = ±9", "x = 9"], correct: 1, explanation: "Difference of squares ⇒ x = ±3." },
+      { id: 6, question: "Solve: 3(x − 2) = 2x + 4", options: ["x = 8", "x = 10", "x = 6", "x = 12"], correct: 1, explanation: "3x − 6 = 2x + 4 → x = 10." },
+      { id: 7, question: "Domain of f(x) = 1/(x − 5):", options: ["All ℝ", "x ≠ 5", "x > 5", "x = 5"], correct: 1, explanation: "Denominator ≠ 0 ⇒ x ≠ 5." },
+      { id: 8, question: "Factor: 4x² − 25", options: ["(2x−5)(2x+5)", "(4x−5)(x+5)", "(2x−5)²", "(4x+5)(x−5)"], correct: 0, explanation: "Difference of squares: (2x)² − 5²." },
+      { id: 9, question: "Solve: x² − 5x + 6 = 0", options: ["x = 1, 6", "x = 2, 3", "x = −2, −3", "x = −1, 6"], correct: 1, explanation: "(x−2)(x−3) = 0." },
+      { id: 10, question: "If log₂(x) = 5, then x =", options: ["10", "25", "32", "16"], correct: 2, explanation: "x = 2⁵ = 32." },
+      { id: 11, question: "Solve the system: x + y = 7, x − y = 3", options: ["x = 5, y = 2", "x = 4, y = 3", "x = 6, y = 1", "x = 3, y = 4"], correct: 0, explanation: "Add: 2x = 10 → x = 5, y = 2." },
+      { id: 12, question: "Simplify: (x² − 1) / (x − 1)", options: ["x", "x + 1", "x − 1", "1"], correct: 1, explanation: "(x−1)(x+1)/(x−1) = x + 1." },
+      { id: 13, question: "Quadratic formula gives x = ?", options: ["(−b ± √(b² − 4ac))/(2a)", "(b ± √(b² + 4ac))/2", "−b/(2a)", "b² − 4ac"], correct: 0, explanation: "Standard quadratic formula." },
+      { id: 14, question: "If 2ˣ = 64, then x =", options: ["4", "5", "6", "8"], correct: 2, explanation: "64 = 2⁶." },
+      { id: 15, question: "Logic: If P→Q is true and P is true, then Q is:", options: ["False", "True", "Unknown", "Both"], correct: 1, explanation: "Modus ponens." },
     ],
   },
-  quantum: {
-    id: "quantum",
-    topic: "Modern Physics and Logical Problem Solving",
-    purpose: "Test your logic and scientific reasoning skills in this advanced futuristic challenge.",
-    reward: "Unlock the Quantum Skin + 500 bonus XP.",
-    description: "Master advanced Physics concepts and critical thinking for an exclusive reward.",
+  daniel: {
+    id: "daniel",
+    topic: "Kinematics, Velocity, Acceleration, Newton's Laws, Forces",
+    purpose: "Improve your understanding of motion and Physics problem-solving while competing for bonus academic points.",
+    reward: "+2 participation points and 800 XP",
+    description: "High school Physics. 15 realistic and solvable motion problems.",
     questions: [
-      {
-        id: 1,
-        question: "If an object travels 100 m in 10 seconds at constant velocity, what is its velocity?",
-        options: ["1 m/s", "5 m/s", "10 m/s", "15 m/s"],
-        correct: 2,
-        explanation: "Velocity = distance / time = 100 m / 10 s = 10 m/s. This is constant velocity motion.",
-      },
-      {
-        id: 2,
-        question: "A ball is thrown upward with initial velocity 20 m/s. At what time does it reach maximum height? (g = 10 m/s²)",
-        options: ["1 s", "2 s", "4 s", "5 s"],
-        correct: 1,
-        explanation: "At max height, v = 0. Using v = v₀ - gt: 0 = 20 - 10t → t = 2 s.",
-      },
-      {
-        id: 3,
-        question: "What happens to the volume of a gas when pressure increases (at constant temperature)?",
-        options: ["Volume increases", "Volume decreases", "Volume stays the same", "Volume becomes negative"],
-        correct: 1,
-        explanation: "According to Boyle's Law (PV = constant), volume and pressure are inversely related at constant temperature.",
-      },
-      {
-        id: 4,
-        question: "The kinetic energy of an object is proportional to:",
-        options: ["velocity", "velocity squared", "mass only", "height"],
-        correct: 1,
-        explanation: "KE = ½mv². Kinetic energy depends on the square of velocity, meaning doubling velocity quadruples kinetic energy.",
-      },
-      {
-        id: 5,
-        question: "What does the term 'wavelength' refer to?",
-        options: ["The time for one complete oscillation", "The distance between consecutive crests or troughs", "The maximum displacement from equilibrium", "The frequency of a wave"],
-        correct: 1,
-        explanation: "Wavelength (λ) is the spatial distance between two consecutive points in phase (like crests). Related to frequency by c = fλ.",
-      },
+      { id: 1, question: "A car covers 100 m in 10 s at constant speed. Velocity?", options: ["5 m/s", "10 m/s", "15 m/s", "20 m/s"], correct: 1, explanation: "v = d/t = 10 m/s." },
+      { id: 2, question: "Object goes 0 → 20 m/s in 4 s. Acceleration?", options: ["2", "4", "5", "10"], correct: 2, explanation: "a = Δv/Δt = 5 m/s²." },
+      { id: 3, question: "Free-fall after 3 s (g = 10), starting at rest. Velocity?", options: ["10 m/s", "20 m/s", "30 m/s", "60 m/s"], correct: 2, explanation: "v = gt = 30 m/s." },
+      { id: 4, question: "Net force 12 N on 3 kg block. a = ?", options: ["3 m/s²", "4 m/s²", "9 m/s²", "36 m/s²"], correct: 1, explanation: "a = F/m = 4 m/s²." },
+      { id: 5, question: "Distance from rest with a = 2 m/s² for 5 s:", options: ["10 m", "20 m", "25 m", "50 m"], correct: 2, explanation: "s = ½at² = ½·2·25 = 25 m." },
+      { id: 6, question: "A ball is thrown up at 20 m/s (g = 10). Time to peak?", options: ["1 s", "2 s", "3 s", "4 s"], correct: 1, explanation: "v = v₀ − gt → 0 = 20 − 10t." },
+      { id: 7, question: "Action–reaction pair acts on:", options: ["Same object", "Different objects", "Massless objects", "None"], correct: 1, explanation: "Newton's 3rd law: forces act on different bodies." },
+      { id: 8, question: "Friction 6 N on 2 kg (g = 10). μ = ?", options: ["0.1", "0.2", "0.3", "0.6"], correct: 2, explanation: "μ = f/(mg) = 6/20 = 0.3." },
+      { id: 9, question: "Average velocity 0 → 10 m/s uniform acceleration:", options: ["2.5 m/s", "5 m/s", "7.5 m/s", "10 m/s"], correct: 1, explanation: "(v₀ + v)/2 = 5 m/s." },
+      { id: 10, question: "Object thrown horizontally falls 5 m (g = 10). Time?", options: ["0.5 s", "1 s", "1.5 s", "2 s"], correct: 1, explanation: "y = ½gt² → 5 = 5t² → t = 1 s." },
+      { id: 11, question: "Centripetal acceleration v = 4, r = 2:", options: ["2", "4", "8", "16"], correct: 2, explanation: "a = v²/r = 16/2 = 8 m/s²." },
+      { id: 12, question: "Force needed to accelerate 1500 kg car at 3 m/s²:", options: ["500 N", "1500 N", "3000 N", "4500 N"], correct: 3, explanation: "F = ma = 4500 N." },
+      { id: 13, question: "Two forces 8 N and 6 N at 90°. Resultant?", options: ["10 N", "12 N", "14 N", "2 N"], correct: 0, explanation: "√(8² + 6²) = 10 N." },
+      { id: 14, question: "An object slows uniformly from 30 to 0 in 6 s. Deceleration?", options: ["3 m/s²", "5 m/s²", "6 m/s²", "10 m/s²"], correct: 1, explanation: "a = (0−30)/6 = −5 m/s²." },
+      { id: 15, question: "Newton's 1st law (inertia) says:", options: ["F = ma", "Object at rest stays at rest unless acted on", "Action = reaction", "Energy conserves"], correct: 1, explanation: "Law of inertia." },
     ],
   },
 };
@@ -521,3 +444,164 @@ export const missionQuizzes: Record<number, MissionQuiz> = {
     ],
   },
 };
+
+// ============================================================
+// Challenge / Timed / Ranked question pools
+// ============================================================
+
+// Per-subject question pools used to size each challenge by difficulty.
+const algebraPool: QuizQuestion[] = [
+  { id: 1, question: "Solve: x + 7 = 12", options: ["3", "5", "7", "12"], correct: 1, explanation: "x = 12 − 7 = 5." },
+  { id: 2, question: "Factor: x² + 7x + 12", options: ["(x+3)(x+4)", "(x+2)(x+6)", "(x+1)(x+12)", "(x−3)(x−4)"], correct: 0, explanation: "3 + 4 = 7, 3·4 = 12." },
+  { id: 3, question: "Solve: 2x − 4 = 10", options: ["5", "6", "7", "8"], correct: 2, explanation: "2x = 14 → x = 7." },
+  { id: 4, question: "Roots of x² − 4 = 0:", options: ["±1", "±2", "±4", "0"], correct: 1, explanation: "x = ±2." },
+  { id: 5, question: "Expand: (x+3)²", options: ["x²+9", "x²+6x+9", "x²+3x+9", "x²+6x+3"], correct: 1, explanation: "(a+b)² = a² + 2ab + b²." },
+  { id: 6, question: "Solve: 3x = 21", options: ["3", "5", "7", "21"], correct: 2, explanation: "x = 7." },
+  { id: 7, question: "If f(x)=x²+1, f(3)=", options: ["7", "9", "10", "12"], correct: 2, explanation: "9 + 1 = 10." },
+  { id: 8, question: "Solve: x/4 = 5", options: ["1", "9", "20", "25"], correct: 2, explanation: "x = 20." },
+  { id: 9, question: "(2x)·(3x)=", options: ["5x²", "6x", "6x²", "5x"], correct: 2, explanation: "Coefficients multiply, exponents add." },
+  { id: 10, question: "Simplify: 2(x+3) − x", options: ["x+3", "x+6", "3x+6", "x−6"], correct: 1, explanation: "2x + 6 − x = x + 6." },
+];
+
+const calculusPool: QuizQuestion[] = [
+  { id: 1, question: "lim x→2 (x²−4)/(x−2) =", options: ["0", "2", "4", "undef"], correct: 2, explanation: "Factor: (x−2)(x+2)/(x−2) → x+2 → 4." },
+  { id: 2, question: "d/dx(x³) =", options: ["x²", "2x²", "3x²", "x³/3"], correct: 2, explanation: "Power rule." },
+  { id: 3, question: "d/dx(sin x) =", options: ["cos x", "−cos x", "−sin x", "tan x"], correct: 0, explanation: "Standard." },
+  { id: 4, question: "∫ 2x dx =", options: ["x²", "x² + C", "2 + C", "x²/2 + C"], correct: 1, explanation: "Power rule for integrals." },
+  { id: 5, question: "lim x→0 sin x / x =", options: ["0", "1", "∞", "x"], correct: 1, explanation: "Famous limit." },
+  { id: 6, question: "d/dx(eˣ) =", options: ["eˣ", "x·eˣ⁻¹", "ln x", "1/x"], correct: 0, explanation: "Self-derivative." },
+  { id: 7, question: "Continuity at a requires:", options: ["f(a) defined", "lim exists", "lim = f(a)", "All of the above"], correct: 3, explanation: "All three conditions." },
+  { id: 8, question: "d/dx(ln x) =", options: ["1/x", "x", "ln x", "eˣ"], correct: 0, explanation: "Derivative of natural log." },
+  { id: 9, question: "lim x→∞ 1/x =", options: ["0", "1", "∞", "−∞"], correct: 0, explanation: "Tends to 0." },
+  { id: 10, question: "∫ 1 dx =", options: ["0", "x", "x + C", "1 + C"], correct: 2, explanation: "Antiderivative of 1." },
+];
+
+const geometryPool: QuizQuestion[] = [
+  { id: 1, question: "Triangle angles sum to:", options: ["90°", "180°", "270°", "360°"], correct: 1, explanation: "Always 180°." },
+  { id: 2, question: "Pythagorean triple:", options: ["(2,3,4)", "(3,4,5)", "(5,6,7)", "(6,7,8)"], correct: 1, explanation: "3² + 4² = 5²." },
+  { id: 3, question: "Equilateral triangle each angle =", options: ["45°", "60°", "75°", "90°"], correct: 1, explanation: "180/3 = 60°." },
+  { id: 4, question: "Area of triangle base 6, height 4:", options: ["10", "12", "24", "48"], correct: 1, explanation: "½·6·4 = 12." },
+  { id: 5, question: "Hypotenuse for legs 6 and 8:", options: ["10", "12", "14", "100"], correct: 0, explanation: "√(36+64) = 10." },
+];
+
+const kinematicsPool: QuizQuestion[] = [
+  { id: 1, question: "Vector 3→ + 4↑, magnitude:", options: ["5", "7", "12", "25"], correct: 0, explanation: "√(9+16) = 5." },
+  { id: 2, question: "10 m/s east + 0 m/s = velocity:", options: ["10 east", "0", "−10", "20"], correct: 0, explanation: "Vector addition." },
+  { id: 3, question: "Component of 10 N at 30° (cos):", options: ["5 N", "8.66 N", "10 N", "20 N"], correct: 1, explanation: "10·cos30 ≈ 8.66." },
+  { id: 4, question: "Projectile range increases with:", options: ["Sin 2θ", "Cos θ", "Tan θ", "Mass"], correct: 0, explanation: "R = v²sin2θ/g." },
+  { id: 5, question: "Displacement from 0→5 then 5→2:", options: ["7", "5", "2", "3"], correct: 2, explanation: "Final − initial = 2 − 0 = 2." },
+  { id: 6, question: "Average velocity if total disp 30 m in 5 s:", options: ["3", "5", "6", "10"], correct: 2, explanation: "30/5 = 6 m/s." },
+  { id: 7, question: "Uniform circular motion has:", options: ["Constant velocity", "Constant speed", "No acceleration", "Variable mass"], correct: 1, explanation: "Speed constant, direction changes." },
+  { id: 8, question: "Two perpendicular vectors 6, 8. Resultant:", options: ["10", "14", "12", "100"], correct: 0, explanation: "√(36+64) = 10." },
+  { id: 9, question: "Free-fall acceleration on Earth ≈", options: ["1.6", "5", "9.8", "20"], correct: 2, explanation: "g ≈ 9.8 m/s²." },
+  { id: 10, question: "Velocity is a:", options: ["Scalar", "Vector", "Constant", "Force"], correct: 1, explanation: "Has magnitude and direction." },
+];
+
+const dynamicsPool: QuizQuestion[] = [
+  { id: 1, question: "F = ma. If m = 5, a = 2 → F =", options: ["3", "7", "10", "25"], correct: 2, explanation: "10 N." },
+  { id: 2, question: "Newton's 3rd law:", options: ["F = ma", "Equal opposite reaction", "Inertia", "Momentum"], correct: 1, explanation: "Action–reaction." },
+  { id: 3, question: "Friction depends on:", options: ["Area", "Normal force", "Time", "Color"], correct: 1, explanation: "f = μN." },
+  { id: 4, question: "An object at rest stays at rest by:", options: ["Newton 1st", "Newton 2nd", "Newton 3rd", "Energy law"], correct: 0, explanation: "Inertia." },
+  { id: 5, question: "Weight on Earth of 10 kg:", options: ["10 N", "20 N", "98 N", "100 N"], correct: 2, explanation: "10·9.8 = 98 N." },
+  { id: 6, question: "Net force 0 ⇒ velocity:", options: ["Increases", "Decreases", "Constant", "Zero only"], correct: 2, explanation: "Constant velocity." },
+];
+
+const energyPool: QuizQuestion[] = [
+  { id: 1, question: "KE = ½mv². m=2, v=3 →", options: ["3", "6", "9", "18"], correct: 2, explanation: "½·2·9 = 9 J." },
+  { id: 2, question: "Work = F·d. F=10, d=5 →", options: ["2", "15", "50", "100"], correct: 2, explanation: "50 J." },
+  { id: 3, question: "PE = mgh, m=2, h=10, g=10 →", options: ["20", "100", "200", "2000"], correct: 2, explanation: "200 J." },
+  { id: 4, question: "Energy is conserved when:", options: ["Friction acts", "System is isolated", "Mass changes", "Always false"], correct: 1, explanation: "Closed isolated system." },
+  { id: 5, question: "Power units:", options: ["J", "W", "N", "Pa"], correct: 1, explanation: "Watt = J/s." },
+  { id: 6, question: "If KE doubles when v doubles, that's:", options: ["True", "False", "Sometimes", "Depends on mass"], correct: 1, explanation: "KE quadruples (v²)." },
+];
+
+const subjectPool: Record<string, QuizQuestion[]> = {
+  Algebra: algebraPool,
+  Calculus: calculusPool,
+  Geometry: geometryPool,
+  Kinematics: kinematicsPool,
+  Dynamics: dynamicsPool,
+  Energy: energyPool,
+};
+
+export function questionsForChallenge(subject: string, difficulty: string): QuizQuestion[] {
+  const counts: Record<string, number> = { Easy: 3, Medium: 6, Hard: 10, Boss: 15 };
+  const n = counts[difficulty] ?? 5;
+  const pool = subjectPool[subject] ?? algebraPool;
+  // Repeat-pad with re-ids if pool too small.
+  const out: QuizQuestion[] = [];
+  for (let i = 0; i < n; i++) out.push({ ...pool[i % pool.length], id: i + 1 });
+  return out;
+}
+
+// Timed Challenges — 5 quick mixed questions.
+export const timedChallenge: MissionQuiz = {
+  id: 999,
+  title: "Timed Challenge",
+  topic: "Quick Math, Physics & Logic",
+  description: "Five fast questions, 15 seconds each. Speed bonuses apply.",
+  reward: 250,
+  timed: true,
+  questions: [
+    { id: 1, question: "12 × 8 = ?", options: ["86", "96", "108", "112"], correct: 1, explanation: "12·8 = 96." },
+    { id: 2, question: "Sound travels fastest in:", options: ["Air", "Water", "Steel", "Vacuum"], correct: 2, explanation: "Solids > liquids > gases." },
+    { id: 3, question: "If a = 5, t = 4 (from rest), v = ?", options: ["10", "15", "20", "25"], correct: 2, explanation: "v = at = 20 m/s." },
+    { id: 4, question: "Next number: 2, 4, 8, 16, ?", options: ["20", "24", "30", "32"], correct: 3, explanation: "Doubling sequence." },
+    { id: 5, question: "Square root of 169:", options: ["11", "12", "13", "14"], correct: 2, explanation: "13² = 169." },
+  ],
+};
+
+// Ranked Mode — opponents pulled from leaderboard, with mixed Math/Physics pool.
+export interface RankedOpponent {
+  name: string;
+  avatar: string;
+  level: number;
+  rankPoints: number;
+  difficulty: "Easy" | "Medium" | "Hard";
+  accuracyPct: number; // simulated opponent accuracy
+  speedMs: number;     // average answer speed
+}
+
+export const rankedOpponents: RankedOpponent[] = [
+  { name: "Edu", avatar: "ED", level: 47, rankPoints: 2400, difficulty: "Hard", accuracyPct: 92, speedMs: 2400 },
+  { name: "Boarlos", avatar: "BO", level: 45, rankPoints: 2280, difficulty: "Hard", accuracyPct: 88, speedMs: 2700 },
+  { name: "Tamu", avatar: "TA", level: 44, rankPoints: 2200, difficulty: "Hard", accuracyPct: 86, speedMs: 2900 },
+  { name: "It's Mat", avatar: "IM", level: 42, rankPoints: 2050, difficulty: "Hard", accuracyPct: 84, speedMs: 3000 },
+  { name: "Tomy", avatar: "TO", level: 40, rankPoints: 1900, difficulty: "Medium", accuracyPct: 80, speedMs: 3200 },
+  { name: "Gatha", avatar: "GA", level: 36, rankPoints: 1620, difficulty: "Medium", accuracyPct: 76, speedMs: 3400 },
+  { name: "Villa", avatar: "VI", level: 32, rankPoints: 1380, difficulty: "Medium", accuracyPct: 72, speedMs: 3600 },
+  { name: "Emi", avatar: "EM", level: 27, rankPoints: 1100, difficulty: "Medium", accuracyPct: 68, speedMs: 3800 },
+  { name: "Paula M", avatar: "PM", level: 26, rankPoints: 1050, difficulty: "Easy", accuracyPct: 64, speedMs: 4000 },
+  { name: "Dianita", avatar: "DI", level: 23, rankPoints: 900, difficulty: "Easy", accuracyPct: 60, speedMs: 4200 },
+];
+
+export const rankedDivisions = [
+  { name: "Bronze", min: 0, color: "from-amber-700 to-amber-900" },
+  { name: "Silver", min: 400, color: "from-slate-300 to-slate-500" },
+  { name: "Gold", min: 900, color: "from-yellow-400 to-amber-500" },
+  { name: "Platinum", min: 1500, color: "from-cyan-300 to-teal-500" },
+  { name: "Diamond", min: 2200, color: "from-sky-400 to-indigo-500" },
+  { name: "Nova Rank", min: 3000, color: "from-fuchsia-500 to-purple-600" },
+  { name: "Volta Elite", min: 4000, color: "from-rose-500 via-orange-500 to-yellow-400" },
+];
+
+export function divisionFor(points: number) {
+  let div = rankedDivisions[0];
+  for (const d of rankedDivisions) if (points >= d.min) div = d;
+  return div;
+}
+
+export const rankedMatchPool: QuizQuestion[] = [
+  { id: 1, question: "Solve: 3x = 27", options: ["6", "7", "9", "12"], correct: 2, explanation: "x = 9." },
+  { id: 2, question: "F = ma; m=4, a=3 ⇒ F =", options: ["7", "12", "15", "21"], correct: 1, explanation: "12 N." },
+  { id: 3, question: "d/dx(x²) =", options: ["x", "2", "2x", "x²"], correct: 2, explanation: "Power rule." },
+  { id: 4, question: "KE of 2 kg at 4 m/s:", options: ["8 J", "12 J", "16 J", "32 J"], correct: 2, explanation: "½·2·16 = 16 J." },
+  { id: 5, question: "(x+1)(x−1) =", options: ["x²", "x²+1", "x²−1", "x²+x−1"], correct: 2, explanation: "Difference of squares." },
+  { id: 6, question: "Free-fall g ≈", options: ["3.7", "5", "9.8", "20"], correct: 2, explanation: "Earth surface." },
+  { id: 7, question: "lim x→0 (1−cos x)/x =", options: ["0", "1", "−1", "∞"], correct: 0, explanation: "Standard limit." },
+  { id: 8, question: "Pythag: 5,12,?", options: ["13", "15", "17", "20"], correct: 0, explanation: "5²+12²=169 ⇒ 13." },
+  { id: 9, question: "Power = work/time. 100 J in 5 s:", options: ["10 W", "15 W", "20 W", "50 W"], correct: 2, explanation: "100/5 = 20 W." },
+  { id: 10, question: "Solve: x² − 16 = 0", options: ["±2", "±4", "±8", "±16"], correct: 1, explanation: "x = ±4." },
+  { id: 11, question: "Vector 3↑ + 4→ magnitude:", options: ["5", "7", "12", "25"], correct: 0, explanation: "√25." },
+  { id: 12, question: "∫ 3x² dx =", options: ["x³", "x³ + C", "6x + C", "9x³"], correct: 1, explanation: "Power rule." },
+];

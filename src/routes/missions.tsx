@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/AppShell";
 import { ProgressBar } from "@/components/ProgressBar";
 import { missions, missionQuizzes } from "@/lib/mock-data";
-import { Check, Clock } from "lucide-react";
+import { Check, Clock, RotateCcw } from "lucide-react";
 import { QuizInterface } from "@/components/QuizInterface";
 import { useState } from "react";
 import { useUser } from "@/lib/user-store";
@@ -14,7 +14,8 @@ export const Route = createFileRoute("/missions")({
 
 function Missions() {
   const [activeMission, setActiveMission] = useState<number | null>(null);
-  const { state: user, completeMission } = useUser();
+  const [replayMode, setReplayMode] = useState(false);
+  const { state: user, completeMission, addXp } = useUser();
   const totalXp = missions.reduce((sum, m) => sum + m.xp, 0);
   const claimed = missions
     .filter((m) => user.completedMissions.includes(m.id))
@@ -24,17 +25,28 @@ function Missions() {
     if (activeMission == null) return;
     const m = missions.find((mm) => mm.id === activeMission);
     if (!m) return;
-    completeMission(activeMission, xp || m.xp, m.title);
+    if (replayMode) {
+      // Replay: grant XP again (with replay marker), don't double-flag.
+      addXp({ xp: xp || m.xp, label: `Mission replay: ${m.title}`, kind: "mission" });
+    } else {
+      completeMission(activeMission, xp || m.xp, m.title);
+    }
   }
 
   function isDone(id: number) {
     return user.completedMissions.includes(id);
   }
 
-  function handleMissionStart(missionId: number) {
-    if (isDone(missionId)) return;
-    if (missionQuizzes[missionId]) setActiveMission(missionId);
-    else completeMission(missionId, missions.find((m) => m.id === missionId)?.xp ?? 0, missions.find((m) => m.id === missionId)?.title ?? "Mission");
+  function handleMissionStart(missionId: number, replay = false) {
+    setReplayMode(replay);
+    if (missionQuizzes[missionId]) {
+      setActiveMission(missionId);
+    } else {
+      const m = missions.find((mm) => mm.id === missionId);
+      if (!m) return;
+      if (replay) addXp({ xp: m.xp, label: `Mission replay: ${m.title}`, kind: "mission" });
+      else completeMission(missionId, m.xp, m.title);
+    }
   }
 
   return (
@@ -43,7 +55,7 @@ function Missions() {
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <h1 className="text-3xl lg:text-4xl font-bold tracking-tight">Daily Missions</h1>
-            <p className="mt-1 text-muted-foreground">Complete missions to earn XP and keep your streak alive.</p>
+            <p className="mt-1 text-muted-foreground">Complete missions to earn XP, restart any time to keep practicing.</p>
           </div>
           <div className="glass-strong rounded-xl px-5 py-3 flex items-center gap-2">
             <Clock size={16} className="text-primary" />
@@ -74,32 +86,41 @@ function Missions() {
           {missions.map((m) => {
             const done = isDone(m.id);
             return (
-            <div
-              key={m.id}
-              className={`glass rounded-2xl p-5 flex items-center gap-4 hover:glow transition ${done ? "opacity-70" : ""}`}
-            >
-              <div className={`h-14 w-14 rounded-xl grid place-items-center text-2xl shrink-0 ${done ? "bg-success/20" : "gradient-primary glow"}`}>
-                {done ? <Check className="text-success" size={26} /> : m.icon}
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="font-semibold">{m.title}</div>
-                <div className="mt-2 flex items-center gap-3">
-                  <div className="flex-1"><ProgressBar value={done ? 100 : (m.progress / m.total) * 100} height="h-1.5" /></div>
-                  <div className="text-xs text-muted-foreground shrink-0">{done ? m.total : m.progress}/{m.total}</div>
-                </div>
-              </div>
-              <div className="text-right shrink-0">
-                <div className="text-lg font-bold text-gradient">+{m.xp}</div>
-                <div className="text-[10px] text-muted-foreground uppercase tracking-wider">XP</div>
-              </div>
-              <button
-                onClick={() => done ? null : handleMissionStart(m.id)}
-                disabled={done}
-                className="px-4 py-2 rounded-lg text-xs font-bold transition gradient-primary text-primary-foreground glow hover:glow-strong disabled:bg-none disabled:bg-secondary disabled:text-muted-foreground disabled:opacity-60"
+              <div
+                key={m.id}
+                className={`glass rounded-2xl p-5 flex items-center gap-4 hover:glow transition`}
               >
-                {done ? "Claimed" : "Start"}
-              </button>
-            </div>
+                <div className={`h-14 w-14 rounded-xl grid place-items-center text-2xl shrink-0 ${done ? "bg-success/20" : "gradient-primary glow"}`}>
+                  {done ? <Check className="text-success" size={26} /> : m.icon}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="font-semibold">{m.title}</div>
+                  <div className="mt-2 flex items-center gap-3">
+                    <div className="flex-1"><ProgressBar value={done ? 100 : (m.progress / m.total) * 100} height="h-1.5" /></div>
+                    <div className="text-xs text-muted-foreground shrink-0">{done ? m.total : m.progress}/{m.total}</div>
+                  </div>
+                </div>
+                <div className="text-right shrink-0">
+                  <div className="text-lg font-bold text-gradient">+{m.xp}</div>
+                  <div className="text-[10px] text-muted-foreground uppercase tracking-wider">XP</div>
+                </div>
+                {done ? (
+                  <button
+                    onClick={() => handleMissionStart(m.id, true)}
+                    className="px-4 py-2 rounded-lg text-xs font-bold transition glass hover:glow flex items-center gap-1.5 text-foreground"
+                  >
+                    <RotateCcw size={12} />
+                    Restart
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => handleMissionStart(m.id, false)}
+                    className="px-4 py-2 rounded-lg text-xs font-bold transition gradient-primary text-primary-foreground glow hover:glow-strong"
+                  >
+                    Start
+                  </button>
+                )}
+              </div>
             );
           })}
         </div>
@@ -108,13 +129,13 @@ function Missions() {
       {/* Quiz Modal */}
       {activeMission && missionQuizzes[activeMission] && (
         <QuizInterface
-          title={missionQuizzes[activeMission].title}
+          title={(replayMode ? "Replay · " : "") + missionQuizzes[activeMission].title}
           topic={missionQuizzes[activeMission].topic}
           questions={missionQuizzes[activeMission].questions}
           reward={missionQuizzes[activeMission].reward}
           timed={missionQuizzes[activeMission].timed}
           onComplete={handleMissionComplete}
-          onExit={() => setActiveMission(null)}
+          onExit={() => { setActiveMission(null); setReplayMode(false); }}
         />
       )}
     </AppShell>
