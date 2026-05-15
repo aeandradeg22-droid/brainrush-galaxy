@@ -3,6 +3,7 @@ import { ArrowRight, Sparkles, Trophy, Brain, Zap, Target, TrendingUp, Star } fr
 import { Particles } from "@/components/Particles";
 import { Logo } from "@/components/Logo";
 import { stats, leaderboard, subjects } from "@/lib/mock-data";
+import { fmt } from "@/lib/level-system";
 
 export const Route = createFileRoute("/")({
   head: () => ({
