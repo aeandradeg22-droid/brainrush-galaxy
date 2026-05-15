@@ -213,7 +213,7 @@ function Landing() {
           <div className="mt-12 grid md:grid-cols-3 gap-4">
             {[
               { name: "Tomy · Volta", quote: "I climbed 3 spots in a single week. Once you're in the Top 10, you don't want to drop out.", avatar: "T" },
-              { name: "Tamu · Volta", quote: "Boss Battles are insane. Only 8 of us beat the Calculus Titan — and the whole class knew about it.", avatar: "T" },
+              { name: "Tamu · Volta", quote: "Boss Battles are insane. Only 8 of us survived the Alfonsito Boss Battle — and the whole class knew about it.", avatar: "T" },
               { name: "Edu · Volta", quote: "I've held #1 for two weeks. Boarlos is right behind me. This is the only ranking that matters at school.", avatar: "E" },
             ].map((t) => (
               <div key={t.name} className="glass rounded-2xl p-6 hover:glow transition-shadow">
