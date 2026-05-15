@@ -1,10 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/AppShell";
-import { challenges, bossBattles, subjects, bossBattleQuizzes } from "@/lib/mock-data";
+import { challenges, bossBattles, subjects, bossBattleQuizzes, questionsForChallenge, timedChallenge, DIFFICULTY_QUESTIONS } from "@/lib/mock-data";
 import { useState } from "react";
 import { Clock, Users, Zap, Swords, Flame, Crown } from "lucide-react";
 import { QuizInterface } from "@/components/QuizInterface";
 import { PracticeMode } from "@/components/PracticeMode";
+import { RankedMatch } from "@/components/RankedMatch";
 import { useUser } from "@/lib/user-store";
 
 export const Route = createFileRoute("/challenges")({
@@ -14,9 +15,9 @@ export const Route = createFileRoute("/challenges")({
 
 const modes = [
   { id: "practice", name: "Practice Mode", desc: "Theory, examples, interactive Qs.", color: "from-emerald-500 to-cyan-500", icon: Zap },
-  { id: "ranked", name: "Ranked Mode", desc: "Climb the Volta ladder.", color: "from-blue-500 to-purple-600", icon: Crown },
-  { id: "boss", name: "Boss Battles", desc: "Epic multi-round duels.", color: "from-orange-500 to-rose-600", icon: Swords },
-  { id: "timed", name: "Timed Challenges", desc: "Beat the clock for big XP.", color: "from-purple-500 to-pink-500", icon: Clock },
+  { id: "ranked", name: "Ranked Mode", desc: "Pick a classmate. Climb divisions.", color: "from-blue-500 to-purple-600", icon: Crown },
+  { id: "boss", name: "Boss Battles", desc: "Epic 15-question duels.", color: "from-orange-500 to-rose-600", icon: Swords },
+  { id: "timed", name: "Timed Challenges", desc: "5 questions · beat the clock.", color: "from-purple-500 to-pink-500", icon: Clock },
 ];
 
 function diffColor(d: string) {
@@ -27,6 +28,8 @@ function Challenges() {
   const [filter, setFilter] = useState<string>("All");
   const [activeBoss, setActiveBoss] = useState<string | null>(null);
   const [practiceOpen, setPracticeOpen] = useState(false);
+  const [rankedOpen, setRankedOpen] = useState(false);
+  const [timedOpen, setTimedOpen] = useState(false);
   const [activeChallenge, setActiveChallenge] = useState<number | null>(null);
   const { defeatBoss, addXp } = useUser();
   const cats = ["All", ...subjects.map((s) => s.name)];
@@ -35,18 +38,36 @@ function Challenges() {
   function handleBossComplete(score: number, xp: number) {
     if (!activeBoss) return;
     const boss = bossBattles.find((b) => b.id === activeBoss);
-    const total = bossBattleQuizzes[activeBoss]?.questions.length ?? 0;
+    const total = bossBattleQuizzes[activeBoss]?.questions.length ?? 15;
     defeatBoss(activeBoss, xp, boss?.name ?? "Boss", score, total);
   }
 
   function handleChallengeComplete(score: number, xp: number) {
     if (activeChallenge == null) return;
     const c = challenges.find((x) => x.id === activeChallenge);
-    addXp({ xp, label: `Challenge: ${c?.title ?? "Challenge"}`, kind: "challenge", correct: score, total: 5 });
+    if (!c) return;
+    const total = DIFFICULTY_QUESTIONS[c.difficulty as keyof typeof DIFFICULTY_QUESTIONS] ?? 5;
+    addXp({ xp, label: `Challenge: ${c.title}`, kind: "challenge", correct: score, total });
+  }
+
+  function handleTimedComplete(score: number, xp: number) {
+    addXp({
+      xp,
+      label: `Timed Challenge · ${score}/5 correct`,
+      kind: "challenge",
+      correct: score,
+      total: 5,
+    });
   }
 
   function handleModeClick(id: string) {
     if (id === "practice") setPracticeOpen(true);
+    else if (id === "ranked") setRankedOpen(true);
+    else if (id === "timed") setTimedOpen(true);
+    else if (id === "boss") {
+      // Scroll to boss battles section
+      document.getElementById("boss-battles")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   }
 
   return (
@@ -54,7 +75,7 @@ function Challenges() {
       <div className="p-6 lg:p-10 space-y-8 max-w-7xl">
         <div>
           <h1 className="text-3xl lg:text-4xl font-bold tracking-tight">Challenges</h1>
-          <p className="mt-1 text-muted-foreground">Pick your fight. Earn XP. Climb ranks.</p>
+          <p className="mt-1 text-muted-foreground">Easy 3 · Medium 6 · Hard 10 · Boss 15. Pick your fight, earn XP, climb ranks.</p>
         </div>
 
         {/* Modes */}
@@ -79,11 +100,11 @@ function Challenges() {
         </div>
 
         {/* Boss Battles */}
-        <div>
+        <div id="boss-battles">
           <div className="flex items-center gap-2 mb-4">
             <Flame className="text-orange-400" size={20} />
             <h2 className="text-xl font-bold">Boss Battles</h2>
-            <span className="text-xs px-2 py-0.5 rounded-full bg-destructive/20 text-destructive font-bold uppercase tracking-wider">Epic</span>
+            <span className="text-xs px-2 py-0.5 rounded-full bg-destructive/20 text-destructive font-bold uppercase tracking-wider">15 Questions · Epic</span>
           </div>
           <div className="grid md:grid-cols-2 gap-4">
             {bossBattles.map((b) => (
@@ -98,12 +119,12 @@ function Challenges() {
                   <div className="flex items-start justify-between">
                     <div className="text-6xl">{b.icon}</div>
                     <span className="px-2 py-1 rounded-md bg-white/20 backdrop-blur text-xs font-bold uppercase tracking-wider">
-                      Boss
+                      Boss · 15 Q
                     </span>
                   </div>
                   <div className="mt-6 text-2xl font-bold">{b.name}</div>
                   <div className="text-sm opacity-80">{b.subject}</div>
-                  <div className="mt-2 text-xs opacity-90 mb-4 max-h-20 overflow-y-auto">{bossBattleQuizzes[b.id].purpose}</div>
+                  <div className="mt-2 text-xs opacity-90 mb-4 max-h-20 overflow-y-auto">{bossBattleQuizzes[b.id]?.purpose}</div>
                   <div className="mt-5 flex items-center justify-between text-xs">
                     <div>
                       <div className="opacity-70">Reward</div>
@@ -142,39 +163,42 @@ function Challenges() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {list.map((c) => (
-              <div key={c.id} className="glass rounded-2xl p-5 hover:glow transition-all hover:-translate-y-1 cursor-pointer">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <div className="text-xs text-muted-foreground">{c.subject}</div>
-                    <div className="font-semibold text-lg mt-0.5">{c.title}</div>
+            {list.map((c) => {
+              const qCount = DIFFICULTY_QUESTIONS[c.difficulty as keyof typeof DIFFICULTY_QUESTIONS] ?? 5;
+              return (
+                <div key={c.id} className="glass rounded-2xl p-5 hover:glow transition-all hover:-translate-y-1 cursor-pointer">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <div className="text-xs text-muted-foreground">{c.subject}</div>
+                      <div className="font-semibold text-lg mt-0.5">{c.title}</div>
+                    </div>
+                    <div className={`text-xs font-bold ${diffColor(c.difficulty)}`}>{c.difficulty} · {qCount}Q</div>
                   </div>
-                  <div className={`text-xs font-bold ${diffColor(c.difficulty)}`}>{c.difficulty}</div>
+                  <div className="mt-5 grid grid-cols-3 gap-2 text-xs">
+                    <div className="glass rounded-lg p-2 text-center">
+                      <div className="text-gradient font-bold">+{c.xp}</div>
+                      <div className="text-muted-foreground text-[10px] mt-0.5">XP</div>
+                    </div>
+                    <div className="glass rounded-lg p-2 text-center flex flex-col items-center">
+                      <div className="font-bold flex items-center gap-1"><Clock size={10} /> {c.time}</div>
+                      <div className="text-muted-foreground text-[10px] mt-0.5">Time</div>
+                    </div>
+                    <div className="glass rounded-lg p-2 text-center flex flex-col items-center">
+                      <div className="font-bold flex items-center gap-1"><Users size={10} /> {c.completion}%</div>
+                      <div className="text-muted-foreground text-[10px] mt-0.5">Completed</div>
+                    </div>
+                  </div>
+                  <button onClick={() => setActiveChallenge(c.id)} className="mt-4 w-full py-2 rounded-lg gradient-primary text-primary-foreground text-sm font-semibold glow hover:glow-strong transition">
+                    Start
+                  </button>
                 </div>
-                <div className="mt-5 grid grid-cols-3 gap-2 text-xs">
-                  <div className="glass rounded-lg p-2 text-center">
-                    <div className="text-gradient font-bold">+{c.xp}</div>
-                    <div className="text-muted-foreground text-[10px] mt-0.5">XP</div>
-                  </div>
-                  <div className="glass rounded-lg p-2 text-center flex flex-col items-center">
-                    <div className="font-bold flex items-center gap-1"><Clock size={10} /> {c.time}</div>
-                    <div className="text-muted-foreground text-[10px] mt-0.5">Time</div>
-                  </div>
-                  <div className="glass rounded-lg p-2 text-center flex flex-col items-center">
-                    <div className="font-bold flex items-center gap-1"><Users size={10} /> {c.completion}%</div>
-                    <div className="text-muted-foreground text-[10px] mt-0.5">Completed</div>
-                  </div>
-                </div>
-                <button onClick={() => setActiveChallenge(c.id)} className="mt-4 w-full py-2 rounded-lg gradient-primary text-primary-foreground text-sm font-semibold glow hover:glow-strong transition">
-                  Start
-                </button>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
 
-      {/* Quiz Modal */}
+      {/* Boss Battle Quiz */}
       {activeBoss && bossBattleQuizzes[activeBoss] && (
         <QuizInterface
           title={bossBattles.find((b) => b.id === activeBoss)?.name || "Boss Battle"}
@@ -186,21 +210,15 @@ function Challenges() {
         />
       )}
 
+      {/* Standard challenge */}
       {activeChallenge != null && (() => {
         const c = challenges.find((x) => x.id === activeChallenge);
         if (!c) return null;
-        // Reuse a quick generated quiz from the challenge metadata.
-        const qs = [{
-          id: 1,
-          question: `${c.title} — ready to attempt this ${c.subject} challenge?`,
-          options: ["Yes, give me the question", "Skip", "Maybe later", "Not sure"],
-          correct: 0,
-          explanation: `You earned XP for engaging with ${c.title}. Practice Mode has full theory + step-by-step examples on this topic.`,
-        }];
+        const qs = questionsForChallenge(c.subject, c.difficulty);
         return (
           <QuizInterface
             title={c.title}
-            topic={c.subject}
+            topic={`${c.subject} · ${c.difficulty}`}
             questions={qs}
             reward={c.xp}
             onComplete={handleChallengeComplete}
@@ -209,7 +227,21 @@ function Challenges() {
         );
       })()}
 
+      {/* Timed Challenge */}
+      {timedOpen && (
+        <QuizInterface
+          title={timedChallenge.title}
+          topic={timedChallenge.topic}
+          questions={timedChallenge.questions}
+          reward={timedChallenge.reward}
+          timed
+          onComplete={handleTimedComplete}
+          onExit={() => setTimedOpen(false)}
+        />
+      )}
+
       <PracticeMode open={practiceOpen} onClose={() => setPracticeOpen(false)} />
+      <RankedMatch open={rankedOpen} onClose={() => setRankedOpen(false)} />
     </AppShell>
   );
 }
