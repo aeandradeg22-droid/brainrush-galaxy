@@ -119,7 +119,7 @@ function Landing() {
             <Feature icon={<Trophy />} title="School Rankings" desc="Compete against your 200 Volta classmates. Rookie to Volta Legend — prove who's really #1." />
             <Feature icon={<Brain />} title="Adaptive AI" desc="Nova AI spots your weakest topics and recommends the exact problems you need." />
             <Feature icon={<Target />} title="Daily Missions" desc="Quick quests keep your streak alive and your brain warm before every class." />
-            <Feature icon={<Sparkles />} title="Boss Battles" desc="Defeat Newton, Einstein and the Calculus Titan — only a few Volta students ever beat them." />
+            <Feature icon={<Sparkles />} title="Boss Battles" desc="Take down Newton, Einstein, Alfonsito and the Daniel Challenge — only a few Volta students survive 15-question runs." />
             <Feature icon={<TrendingUp />} title="Deep Analytics" desc="Heatmaps, radar charts, and trends so you always know what to study next." />
           </div>
         </div>
