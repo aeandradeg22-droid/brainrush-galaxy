@@ -42,11 +42,14 @@ export const challenges = [
   { id: 6, title: "Energy Conservation", subject: "Energy", difficulty: "Medium", xp: 280, time: "9 min", completion: 71 },
 ];
 
+// Number of questions per difficulty tier — applies across all challenge modes.
+export const DIFFICULTY_QUESTIONS = { Easy: 3, Medium: 6, Hard: 10, Boss: 15 } as const;
+
 export const bossBattles = [
-  { id: "newton", name: "Newton Boss Battle", subject: "Dynamics", hp: "12,000 XP", reward: "Legendary Badge", color: "from-orange-500 via-red-500 to-rose-600", icon: "🍎" },
-  { id: "einstein", name: "Einstein Challenge", subject: "Relativity", hp: "18,000 XP", reward: "Cosmic Aura", color: "from-indigo-500 via-purple-600 to-fuchsia-600", icon: "✦" },
-  { id: "calculus", name: "The Calculus Titan", subject: "Calculus", hp: "15,000 XP", reward: "Integral Crown", color: "from-emerald-500 via-teal-500 to-cyan-600", icon: "∫" },
-  { id: "quantum", name: "Quantum Rush", subject: "Modern Physics", hp: "22,000 XP", reward: "Quantum Skin", color: "from-cyan-500 via-blue-500 to-purple-600", icon: "⚛" },
+  { id: "newton", name: "Newton Boss Battle", subject: "Dynamics", hp: "12,000 XP", reward: "Legendary Badge + 600 XP", color: "from-orange-500 via-red-500 to-rose-600", icon: "🍎" },
+  { id: "einstein", name: "Einstein Challenge", subject: "Relativity", hp: "18,000 XP", reward: "Cosmic Aura + 750 XP", color: "from-indigo-500 via-purple-600 to-fuchsia-600", icon: "✦" },
+  { id: "alfonsito", name: "Alfonsito Boss Battle", subject: "Algebra & Logic", hp: "15,000 XP", reward: "Homework Recovery Pass + 700 XP", color: "from-emerald-500 via-teal-500 to-cyan-600", icon: "ƒ" },
+  { id: "daniel", name: "Daniel Challenge", subject: "Kinematics & Forces", hp: "16,000 XP", reward: "+2 participation points and 800 XP", color: "from-cyan-500 via-blue-500 to-purple-600", icon: "⚡" },
 ];
 
 export const ranks = [
